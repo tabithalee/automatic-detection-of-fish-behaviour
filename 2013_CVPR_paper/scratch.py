@@ -21,9 +21,10 @@ while (cap.isOpened()):
     # Capture frame-by-frame
     ret, frame = cap.read()
     if ret:
-        print('frameshape: ', frame.shape)
+        #print('frameshape: ', frame.shape)
         # Display the resulting frame
         #cv2.imshow('Frame', frame)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         myList.append(frame)
         #plt.imshow(frame)
         #plt.pause(0.001)
@@ -51,10 +52,12 @@ cv2.destroyAllWindows()
 myArray = np.array(myList)
 
 # GET THE BLOCK POSITIONS (assuming no overlaps)
+# TODO - should be overlapping STVs
 
 block_size = 5
 
 # find the dimensions of the total volume
+print(myArray.shape)
 zLen = myArray.shape[0]
 yLen = myArray.shape[1]
 xLen = myArray.shape[2]
@@ -64,9 +67,28 @@ num_y_blocks = math.floor(yLen / block_size)
 num_x_blocks = math.floor(xLen / block_size)
 num_blocks = num_z_blocks * num_y_blocks * num_x_blocks
 
+'''
+# deal with all the volumes later - work with only one volume for now
 
-sampled_volume_array = np.empty( num_blocks,3)
+sampled_volume_array = np.empty((num_blocks, 3))
 
-for i in num_blocks:
-    (x,y,z) = np.unravel_index(i, [num_z_blocks,num_y_blocks,num_x_blocks])
-    
+for i in range(num_blocks):
+    index = np.unravel_index(i, [num_z_blocks, num_y_blocks, num_x_blocks])
+    sampled_volume_array[i] = myArray
+    print("index: ", index)
+'''
+
+initialIndex = np.unravel_index(0, [num_z_blocks, num_y_blocks, num_x_blocks])
+print(initialIndex)
+print(myArray[initialIndex])
+print(myArray[0][0][0])
+
+# print the volume of array from indices
+for i in range(5):
+    for j in range(5):
+        for k in range(5):
+            print(myArray[initialIndex[0]+i][initialIndex[1]+j][initialIndex[2]+k], end=" ")
+        print('\n')
+    print('**********')
+
+print('end of script\n')

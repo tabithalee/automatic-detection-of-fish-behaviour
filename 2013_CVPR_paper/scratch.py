@@ -57,7 +57,7 @@ myArray = np.array(myList)
 block_size = 5
 
 # find the dimensions of the total volume
-print(myArray.shape)
+# print(myArray.shape)
 zLen = myArray.shape[0]
 yLen = myArray.shape[1]
 xLen = myArray.shape[2]
@@ -66,6 +66,11 @@ num_z_blocks = math.floor(zLen / block_size)
 num_y_blocks = math.floor(yLen / block_size)
 num_x_blocks = math.floor(xLen / block_size)
 num_blocks = num_z_blocks * num_y_blocks * num_x_blocks
+
+# find the last usable index
+end_x_index = num_x_blocks * (block_size - 1)
+end_y_index = num_y_blocks * (block_size - 1)
+end_z_index = num_z_blocks * (block_size - 1)
 
 '''
 # deal with all the volumes later - work with only one volume for now
@@ -79,11 +84,13 @@ for i in range(num_blocks):
 '''
 
 initialIndex = np.unravel_index(0, [num_z_blocks, num_y_blocks, num_x_blocks])
-print(initialIndex)
-print(myArray[initialIndex])
-print(myArray[0][0][0])
+# print(initialIndex)
+#print(myArray[initialIndex])
+# print(myArray[0][0][0])
 
-# print the volume of array from indices
+kernelSize = 5
+
+''' # print the volume of array from indices
 for i in range(5):
     for j in range(5):
         for k in range(5):
@@ -92,3 +99,63 @@ for i in range(5):
     print('**********')
 
 print('end of script\n')
+'''
+
+# put the volume in a buffer
+# print('shape of myArray: ', myArray.shape)
+# print(myArray[initialIndex[0]:kernelSize, initialIndex[1]:kernelSize, initialIndex[2]:kernelSize])
+
+
+# get the gradient of the volume
+# get the gradients of the volume in a single frame
+
+A = [1, 4, 6, 4, 1]
+B = [2, 1, 0, -1, -2]
+
+Gx = []
+Gy = []
+Gt = []
+
+
+kernelSize = len(B)
+
+Cx = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
+Cy = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
+Ct = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
+
+frontFace = np.einsum('i,j->ij', A, A)
+
+for i in range(kernelSize):
+    Cx[:, :, i] = B[i] * frontFace
+
+for i in range(kernelSize):
+    Cy[:, i, :] = B[i] * frontFace
+
+for i in range(kernelSize):
+    Ct[i, :, :] = B[i] * frontFace
+
+# print(frontFace)
+
+
+
+for z in range(kernelSize):
+    for y in range(kernelSize):
+        for x in range(kernelSize):
+            Gx.append(np.einsum('ijk,ijk->', Cx, myArray[x:x+kernelSize, x:x+kernelSize, x:x+kernelSize]))
+            Gy.append(np.einsum('ijk,ijk->', Cy, myArray[y:y+kernelSize, y:y+kernelSize, y:y+kernelSize]))
+            Gt.append(np.einsum('ijk,ijk->', Ct, myArray[z:z+kernelSize, z:z+kernelSize, z:z+kernelSize]))
+
+# Convert the vector to polar coordinates according to the paper
+
+# Get a vector of the euclidean distances
+Gs = np.linalg.norm([Gx, Gy], axis=0)
+
+# do calculation for Gs
+e_max = max(Gs) * 0.01
+spatial_sum = sum(Gs) + e_max
+
+Gs /= spatial_sum
+
+print('Gx[0]: ', Gx[0], ' Gy[0]: ', Gy[0], 'spatial_sum[0]: ', Gs[0])
+print('Gx[1]: ', Gx[1], ' Gy[1]: ', Gy[1], 'spatial_sum[1]: ', Gs[1])
+print('Gx[2]: ', Gx[2], ' Gy[2]: ', Gy[2], 'spatial_sum[2]: ', Gs[2])

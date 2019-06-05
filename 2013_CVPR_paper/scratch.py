@@ -167,3 +167,22 @@ print('Gx[2]: ', Gx[2], ' Gy[2]: ', Gy[2], 'spatial_sum[2]: ', Theta[2])
 '''
 
 # Bin the gradient vectors into a history of oriented gradients
+Phi_range = (-(math.pi/2), math.pi/2)
+Theta_range = (-math.pi, math.pi)
+
+# Find the histogram in the Phi direction (8 bins)
+unique_list = list(set(Phi))
+print('unique values in Phi: ', unique_list)
+
+Phi_hist, _ = np.histogram(Phi, bins=8, range=Phi_range, weights=M, density=True)
+
+
+# Find the histogram in the Theta direction (16 bins)
+unique_list = list(set(Theta))
+print('unique values in Theta: ', unique_list)
+
+Theta_hist, _ = np.histogram(Theta, bins=16, range=Theta_range, weights=M, density=True)
+
+#plt.bar(range(24), [Phi_hist, Theta_hist])
+plt.bar(range(24), np.concatenate((Phi_hist, Theta_hist)))
+plt.show()

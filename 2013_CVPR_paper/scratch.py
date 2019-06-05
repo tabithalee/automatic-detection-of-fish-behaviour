@@ -137,7 +137,7 @@ for i in range(kernelSize):
 # print(frontFace)
 
 
-
+# TODO - make this applicable to all the video volumes
 for z in range(kernelSize):
     for y in range(kernelSize):
         for x in range(kernelSize):
@@ -156,6 +156,14 @@ spatial_sum = sum(Gs) + e_max
 
 Gs /= spatial_sum
 
-print('Gx[0]: ', Gx[0], ' Gy[0]: ', Gy[0], 'spatial_sum[0]: ', Gs[0])
-print('Gx[1]: ', Gx[1], ' Gy[1]: ', Gy[1], 'spatial_sum[1]: ', Gs[1])
-print('Gx[2]: ', Gx[2], ' Gy[2]: ', Gy[2], 'spatial_sum[2]: ', Gs[2])
+M = np.linalg.norm([Gs, Gt], axis=0)
+Theta = np.arctan(np.divide(Gy, Gx))
+Phi = np.arctan(np.divide(Gt, Gs))
+
+'''
+print('Gx[0]: ', Gx[0], ' Gy[0]: ', Gy[0], 'spatial_sum[0]: ', Theta[0])
+print('Gx[1]: ', Gx[1], ' Gy[1]: ', Gy[1], 'spatial_sum[1]: ', Theta[1])
+print('Gx[2]: ', Gx[2], ' Gy[2]: ', Gy[2], 'spatial_sum[2]: ', Theta[2])
+'''
+
+# Bin the gradient vectors into a history of oriented gradients

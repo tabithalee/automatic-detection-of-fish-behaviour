@@ -68,9 +68,9 @@ num_x_blocks = math.floor(xLen / block_size)
 num_blocks = num_z_blocks * num_y_blocks * num_x_blocks
 
 # find the last usable index
-end_x_index = num_x_blocks * (block_size - 1)
-end_y_index = num_y_blocks * (block_size - 1)
-end_z_index = num_z_blocks * (block_size - 1)
+end_x_index = xLen - block_size
+end_y_index = yLen - block_size
+end_z_index = zLen - block_size
 
 '''
 # deal with all the volumes later - work with only one volume for now
@@ -138,9 +138,16 @@ for i in range(kernelSize):
 
 
 # TODO - make this applicable to all the video volumes
+
+# get gradients for one slice of volume (5x240x320)
+x_indices = range(0, end_x_index+1)
+y_indices = range(0, end_y_index+1)
+z_indices = range(0, end_z_index+1)
+
 for z in range(kernelSize):
     for y in range(kernelSize):
         for x in range(kernelSize):
+            # TODO - there is something wrong with the indexing here...
             Gx.append(np.einsum('ijk,ijk->', Cx, myArray[x:x+kernelSize, x:x+kernelSize, x:x+kernelSize]))
             Gy.append(np.einsum('ijk,ijk->', Cy, myArray[y:y+kernelSize, y:y+kernelSize, y:y+kernelSize]))
             Gt.append(np.einsum('ijk,ijk->', Ct, myArray[z:z+kernelSize, z:z+kernelSize, z:z+kernelSize]))

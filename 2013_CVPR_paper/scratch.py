@@ -67,11 +67,6 @@ num_y_blocks = math.floor(yLen / block_size)
 num_x_blocks = math.floor(xLen / block_size)
 num_blocks = num_z_blocks * num_y_blocks * num_x_blocks
 
-# find the last usable index
-end_x_index = xLen - block_size
-end_y_index = yLen - block_size
-end_z_index = zLen - block_size
-
 '''
 # deal with all the volumes later - work with only one volume for now
 
@@ -123,6 +118,7 @@ Cx = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
 Cy = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
 Ct = np.zeros((kernelSize, kernelSize, kernelSize), dtype=int)
 
+
 frontFace = np.einsum('i,j->ij', A, A)
 
 for i in range(kernelSize):
@@ -139,57 +135,103 @@ for i in range(kernelSize):
 
 # TODO - make this applicable to all the video volumes
 
+# find the last usable index
+end_x_index = xLen - 2 * block_size
+end_y_index = yLen - 2 * block_size
+end_z_index = zLen - 2 * block_size
+
 # get gradients for one slice of volume (5x240x320)
 x_indices = range(0, end_x_index+1)
 y_indices = range(0, end_y_index+1)
 z_indices = range(0, end_z_index+1)
 
-for z in range(kernelSize):
-    for y in range(kernelSize):
-        for x in range(kernelSize):
-            # TODO - there is something wrong with the indexing here...
-            Gx.append(np.einsum('ijk,ijk->', Cx, myArray[x:x+kernelSize, x:x+kernelSize, x:x+kernelSize]))
-            Gy.append(np.einsum('ijk,ijk->', Cy, myArray[y:y+kernelSize, y:y+kernelSize, y:y+kernelSize]))
-            Gt.append(np.einsum('ijk,ijk->', Ct, myArray[z:z+kernelSize, z:z+kernelSize, z:z+kernelSize]))
+print(x_indices)
 
-# Convert the vector to polar coordinates according to the paper
+sliceList = []
+histList = []
 
-# Get a vector of the euclidean distances
-Gs = np.linalg.norm([Gx, Gy], axis=0)
+x_count = 0
+y_count = 0
+z_count = 0
 
-# do calculation for Gs
-e_max = max(Gs) * 0.01
-spatial_sum = sum(Gs) + e_max
+Phi_bins = 8
+Theta_bins = 16
 
-Gs /= spatial_sum
+# myZ = 0     # one video volume slice for now
+for myZ in z_indices:
+    for myY in y_indices:
+        for myX in x_indices:
+            # TODO - may not actually need these for loops but are the histograms for each volume or each slice?
+            for z in range(kernelSize):
+                for y in range(kernelSize):
+                    for x in range(kernelSize):
+                        start_z = myZ + z
+                        end_z = myZ + z + kernelSize
+                        start_y = myY + y
+                        end_y = myY + y + kernelSize
+                        start_x = myX + x
+                        end_x = myX + x + kernelSize
+                        myVolume = myArray[start_z: end_z, start_y: end_y, start_x: end_x]
 
-M = np.linalg.norm([Gs, Gt], axis=0)
-Theta = np.arctan(np.divide(Gy, Gx))
-Phi = np.arctan(np.divide(Gt, Gs))
+                        Gx.append(np.einsum('ijk,ijk->', Cx, myVolume))
+                        Gy.append(np.einsum('ijk,ijk->', Cy, myVolume))
+                        Gt.append(np.einsum('ijk,ijk->', Ct, myVolume))
+                        # print('myx: ', myX, 'x: ', x, 'size of x_indices: ', len(x_indices), 'last x index: ', x_indices[-1])
+
+            # Convert the vector to polar coordinates according to the paper
+
+            # Get a vector of the euclidean distances
+            Gs = np.linalg.norm([Gx, Gy], axis=0)
+
+            # do calculation for Gs
+            e_max = max(Gs) * 0.01
+            spatial_sum = sum(Gs) + e_max
+
+            Gs /= spatial_sum
+
+            M = np.linalg.norm([Gs, Gt], axis=0)
+            Theta = np.arctan(np.divide(Gy, Gx))
+            Phi = np.arctan(np.divide(Gt, Gs))
+
+            # Bin the gradient vectors into a history of oriented gradients
+            Phi_range = (-(math.pi/2), math.pi/2)
+            Theta_range = (-math.pi, math.pi)
+
+            # Find the histogram in the Phi direction (8 bins)
+            # unique_list = list(set(Phi))
+            # print('unique values in Phi: ', unique_list)
+
+            Phi_hist, _ = np.histogram(Phi, bins=8, range=Phi_range, weights=M, density=True)
+
+
+            # Find the histogram in the Theta direction (16 bins)
+            # unique_list = list(set(Theta))
+            # print('unique values in Theta: ', unique_list)
+
+            Theta_hist, _ = np.histogram(Theta, bins=16, range=Theta_range, weights=M, density=True)
+
+            sliceList.append(np.concatenate((Phi_hist, Theta_hist)))
+            #  print(histList[-1])
+
+            Gx.clear()
+            Gy.clear()
+            Gt.clear()
+
+            x_count +=1
+        y_count += 1
+    z_count += 1
+
+    print('x count: ', x_count, 'y count: ', y_count, 'z count: ', z_count)
+
+    histList.append(np.reshape(np.array(sliceList), (len(y_indices), len(x_indices), Phi_bins+Theta_bins)))
+    sliceList.clear()
+
+
+print(sliceList.shape)
+print(histList.shape)
 
 '''
-print('Gx[0]: ', Gx[0], ' Gy[0]: ', Gy[0], 'spatial_sum[0]: ', Theta[0])
-print('Gx[1]: ', Gx[1], ' Gy[1]: ', Gy[1], 'spatial_sum[1]: ', Theta[1])
-print('Gx[2]: ', Gx[2], ' Gy[2]: ', Gy[2], 'spatial_sum[2]: ', Theta[2])
-'''
-
-# Bin the gradient vectors into a history of oriented gradients
-Phi_range = (-(math.pi/2), math.pi/2)
-Theta_range = (-math.pi, math.pi)
-
-# Find the histogram in the Phi direction (8 bins)
-unique_list = list(set(Phi))
-print('unique values in Phi: ', unique_list)
-
-Phi_hist, _ = np.histogram(Phi, bins=8, range=Phi_range, weights=M, density=True)
-
-
-# Find the histogram in the Theta direction (16 bins)
-unique_list = list(set(Theta))
-print('unique values in Theta: ', unique_list)
-
-Theta_hist, _ = np.histogram(Theta, bins=16, range=Theta_range, weights=M, density=True)
-
 #plt.bar(range(24), [Phi_hist, Theta_hist])
 plt.bar(range(24), np.concatenate((Phi_hist, Theta_hist)))
 plt.show()
+'''

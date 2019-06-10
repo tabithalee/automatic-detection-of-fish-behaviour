@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import numpy.linalg as LA
 import matplotlib.pyplot as plt
 import time
 import math
@@ -107,10 +108,6 @@ print('end of script\n')
 A = [1, 4, 6, 4, 1]
 B = [2, 1, 0, -1, -2]
 
-Gx = []
-Gy = []
-Gt = []
-
 
 kernelSize = len(B)
 
@@ -145,10 +142,14 @@ x_indices = range(0, end_x_index+1)
 y_indices = range(0, end_y_index+1)
 z_indices = range(0, end_z_index+1)
 
-print(x_indices)
+Gx = np.zeros(len(z_indices) * len(y_indices) * len(x_indices), dtype=np.float32)
+Gy = np.zeros(len(z_indices) * len(y_indices) * len(x_indices), dtype=np.float32)
+Gt = np.zeros(len(z_indices) * len(y_indices) * len(x_indices), dtype=np.float32)
 
-sliceList = []
-histList = []
+# print(x_indices)
+
+#sliceList = []
+#histList = []
 
 x_count = 0
 y_count = 0
@@ -156,6 +157,23 @@ z_count = 0
 
 Phi_bins = 8
 Theta_bins = 16
+
+# Bin the gradient vectors into a history of oriented gradients
+Phi_range = (-(math.pi / 2), math.pi / 2)
+Theta_range = (-math.pi, math.pi)
+
+sliceList = np.zeros((len(y_indices), len(x_indices), Phi_bins+Theta_bins), dtype=np.float32)
+# histList = np.zeros((len(z_indices), len(y_indices), len(x_indices), Phi_bins+Theta_bins))
+
+# avoiding dots inside the for loop makes it faster!
+norm = LA.norm
+myDivide = np.divide
+myAtan = np.arctan
+myMax = np.max
+mySum = np.sum
+myEinsum = np.einsum
+myHist = np.histogram
+myConcat = np.concatenate
 
 # myZ = 0     # one video volume slice for now
 for myZ in z_indices:
@@ -171,31 +189,32 @@ for myZ in z_indices:
                         end_y = myY + y + kernelSize
                         start_x = myX + x
                         end_x = myX + x + kernelSize
+                        my_G_index = myZ * end_x_index + myY * end_y_index + myX
                         myVolume = myArray[start_z: end_z, start_y: end_y, start_x: end_x]
 
-                        Gx.append(np.einsum('ijk,ijk->', Cx, myVolume))
-                        Gy.append(np.einsum('ijk,ijk->', Cy, myVolume))
-                        Gt.append(np.einsum('ijk,ijk->', Ct, myVolume))
+                        Gx[my_G_index] = myEinsum('ijk,ijk->', Cx, myVolume)
+                        Gy[my_G_index] = myEinsum('ijk,ijk->', Cy, myVolume)
+                        Gt[my_G_index] = myEinsum('ijk,ijk->', Ct, myVolume)
                         # print('myx: ', myX, 'x: ', x, 'size of x_indices: ', len(x_indices), 'last x index: ', x_indices[-1])
 
             # Convert the vector to polar coordinates according to the paper
 
             # Get a vector of the euclidean distances
-            Gs = np.linalg.norm([Gx, Gy], axis=0)
+            Gs = norm([Gx, Gy], axis=0)
+            # print('Gs shape: ', Gs.shape, 'Gx shape: ', Gx.shape, 'Gy shape: ', Gy.shape, 'Gz shape: ', Gt.shape)
 
             # do calculation for Gs
-            e_max = max(Gs) * 0.01
-            spatial_sum = sum(Gs) + e_max
+            e_max = myMax(Gs) * 0.01
 
-            Gs /= spatial_sum
+            spatial_sum = mySum(Gs) + e_max
 
-            M = np.linalg.norm([Gs, Gt], axis=0)
-            Theta = np.arctan(np.divide(Gy, Gx))
-            Phi = np.arctan(np.divide(Gt, Gs))
+            # Gs /= spatial_sum
+            Gs = myDivide(Gs, spatial_sum)
 
-            # Bin the gradient vectors into a history of oriented gradients
-            Phi_range = (-(math.pi/2), math.pi/2)
-            Theta_range = (-math.pi, math.pi)
+            M = norm([Gs, Gt], axis=0)
+
+            Theta = myAtan(myDivide(Gy, Gx))
+            Phi = myAtan(myDivide(Gt, Gs))
 
             # Find the histogram in the Phi direction (8 bins)
             # unique_list = list(set(Phi))
@@ -208,14 +227,14 @@ for myZ in z_indices:
             # unique_list = list(set(Theta))
             # print('unique values in Theta: ', unique_list)
 
-            Theta_hist, _ = np.histogram(Theta, bins=16, range=Theta_range, weights=M, density=True)
+            Theta_hist, _ = myHist(Theta, bins=16, range=Theta_range, weights=M, density=True)
 
-            sliceList.append(np.concatenate((Phi_hist, Theta_hist)))
+            sliceList[myY, myX] = (myConcat((Phi_hist, Theta_hist)))
             #  print(histList[-1])
 
-            Gx.clear()
-            Gy.clear()
-            Gt.clear()
+            #Gx.clear()
+            #Gy.clear()
+            #Gt.clear()
 
             x_count +=1
         y_count += 1
@@ -223,12 +242,13 @@ for myZ in z_indices:
 
     print('x count: ', x_count, 'y count: ', y_count, 'z count: ', z_count)
 
-    histList.append(np.reshape(np.array(sliceList), (len(y_indices), len(x_indices), Phi_bins+Theta_bins)))
-    sliceList.clear()
+    #histList[myZ] = sliceList[myY, myX]
+    #histList.append(np.reshape(np.array(sliceList), (len(y_indices), len(x_indices), Phi_bins+Theta_bins)))
+    # sliceList.clear()
 
 
 print(sliceList.shape)
-print(histList.shape)
+# print(histList.shape)
 
 '''
 #plt.bar(range(24), [Phi_hist, Theta_hist])

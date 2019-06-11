@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1ea04b04-b1d2-4b58-8ec9-e2e9be418e4b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
-    </list>
+    <list default="true" id="1ea04b04-b1d2-4b58-8ec9-e2e9be418e4b" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="233" selection-start-line="233" selection-end-line="233" />
+            <state relative-caret-position="144">
+              <caret line="222" column="93" lean-forward="true" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -183,8 +181,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="233" selection-start-line="233" selection-end-line="233" />
+        <state relative-caret-position="144">
+          <caret line="222" column="93" lean-forward="true" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

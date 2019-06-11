@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1ea04b04-b1d2-4b58-8ec9-e2e9be418e4b" name="Default Changelist" comment="" />
+    <list default="true" id="1ea04b04-b1d2-4b58-8ec9-e2e9be418e4b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="222" column="93" lean-forward="true" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
+            <state relative-caret-position="211">
+              <caret line="222" column="93" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -57,20 +59,7 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="2013_CVPR_paper" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2013_CVPR_paper" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -158,13 +147,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1279" y="0" width="1282" height="997" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49911505" weight="0.24502784" />
-      <window_info id="Structure" order="1" sideWeight="0.50442475" side_tool="true" visible="true" weight="0.24502784" />
-      <window_info id="Favorites" order="2" sideWeight="0.49557522" visible="true" weight="0.24502784" />
+      <window_info id="Structure" order="1" sideWeight="0.504" side_tool="true" visible="true" weight="0.24502784" />
+      <window_info id="Favorites" order="2" sideWeight="0.496" weight="0.24502784" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.35428572" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35428572" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39885715" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -181,8 +171,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="222" column="93" lean-forward="true" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
+        <state relative-caret-position="211">
+          <caret line="222" column="93" selection-start-line="222" selection-start-column="93" selection-end-line="222" selection-end-column="93" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

@@ -1,0 +1,74 @@
+import cv2
+import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
+                       'BC_POD1_PTILTVIDEO_20110519T091755.000Z_1.ogg')
+
+myList = []
+
+prevFrame = None
+minArea = 750
+threshVal = 10
+dilationIterations = 3
+gaussianSize = (41, 41)
+
+# Check if camera opened successfully
+if cap.isOpened() is False:
+    print("Error opening video stream or file")
+
+# Create a new figure for plt
+fig, figarray = plt.subplots(2,1)
+# Read until video is completed
+while cap.isOpened():
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    if ret:
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        frame = cv2.GaussianBlur(frame, gaussianSize, 0)
+
+        if prevFrame is None:
+            prevFrame = frame
+
+        frameDiff = cv2.absdiff(prevFrame, frame)
+        _, threshDiff = cv2.threshold(frameDiff, threshVal, 255, cv2.ADAPTIVE_THRESH_MEAN_C)
+
+        threshDiff = cv2.dilate(threshDiff, None, iterations=dilationIterations)
+        contours, _ = cv2.findContours(threshDiff.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for c in contours:
+            if cv2.contourArea(c) < minArea:
+                continue
+
+            (xPos, yPos, width, height) = cv2.boundingRect(c)
+            cv2.rectangle(frame, (xPos, yPos), (xPos + width, yPos + height), (0, 255, 0), 2)
+
+            figarray[0].imshow(threshDiff)
+            figarray[1].imshow(frame)
+            plt.pause(0.001)
+
+        myList.append(threshDiff)
+        time.sleep(0.001)
+
+    # Break the loop
+    else:
+        break
+
+# When everything done, release the video capture object
+cap.release()
+
+# Closes all the frames
+cv2.destroyAllWindows()
+
+# convert list to array
+# myArray = np.array(myList) may not need this for now
+
+print('all frames saved')
+
+'''
+The following function tries to see if there are any fish in the frame with background subtraction. Usually background
+subtraction is done with the first frame and the current frame but will see if it works the same with the previous frame
+and current frame. 
+'''
+

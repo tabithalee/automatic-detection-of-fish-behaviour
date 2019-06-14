@@ -5,35 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MotionTracking/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../MotionTracking/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../MotionTracking/detect" beforeDir="false" afterPath="$PROJECT_DIR$/../MotionTracking/detect" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110107T090021.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110125T183224.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110519T091755.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110522T114342.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110522T114342.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110522T173147.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110522T173147.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110525T111402.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110527T063643.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110528T165204.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110528T165204.000Z_3.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110615T192950.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110615T192950.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110615T192950.000Z_3.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110616T171904.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110616T171904.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110618T185440.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110618T185440.000Z_5.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110624T174459.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110624T174459.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110624T174459.000Z_3.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110624T174459.000Z_4.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110702T181655.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110703T190647.000Z_1.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110703T190647.000Z_2.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../good quality videos/BC_POD1_PTILTVIDEO_20110703T190647.000Z_3.ogg" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +51,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-1" />
     <option name="width" value="1282" />
     <option name="height" value="1024" />
@@ -177,7 +148,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1282" height="1024" extended-state="7" />
+    <frame x="-1" y="0" width="1282" height="1024" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49911505" weight="0.24502784" />

@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import time
 import matplotlib.pyplot as plt
+from collections import deque
+
 
 cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
                        'BC_POD1_PTILTVIDEO_20110519T091755.000Z_1.ogg')
@@ -13,6 +15,9 @@ minArea = 750
 threshVal = 10
 dilationIterations = 3
 gaussianSize = (41, 41)
+bufferLength = 72
+
+trackedPoints = deque(maxlen=bufferLength)
 
 # Check if camera opened successfully
 if cap.isOpened() is False:
@@ -41,8 +46,20 @@ while cap.isOpened():
             if cv2.contourArea(c) < minArea:
                 continue
 
+            # find center of the contour
+            myMoment = cv2.moments(c)
+            xMom = int(myMoment['m10'] / myMoment['m00'])
+            yMom = int(myMoment['m01'] / myMoment['m00'])
+
+            trackedPoints.appendleft((xMom, yMom))
+
             (xPos, yPos, width, height) = cv2.boundingRect(c)
+
             cv2.rectangle(frame, (xPos, yPos), (xPos + width, yPos + height), (0, 255, 0), 2)
+
+            # loop through the tracked points
+            for i in range
+
 
             figarray[0].imshow(threshDiff)
             figarray[1].imshow(frame)

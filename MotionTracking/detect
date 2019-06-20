@@ -11,7 +11,7 @@ cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behavi
 myList = []
 
 prevFrame = None
-minArea = 900
+minArea = 750
 threshVal = 10
 dilationIterations = 3
 gaussianSize = (61, 61)
@@ -19,15 +19,37 @@ bufferLength = 72
 lineThick = 2
 
 trackedPoints = deque(maxlen=bufferLength)
+predictedPoints = deque(maxlen=bufferLength)
 
 saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+
+# Create the Kalman Filter
+kalmanX = cv2.KalmanFilter(1, 1, controlParams=0)
+kalmanY = cv2.KalmanFilter(1, 1, controlParams=0)
+
+# TODO - i don't understand this yet!!!
+'''
+kalmanX.transitionMatrix = np.array([[1., 0.], [0., 1.]])
+kalmanX.measurementMatrix = 1. * np.ones((1, 2))
+kalmanX.processNoiseCov = 1e-5 * np.eye(2)  # can play with this later... how much disturbance there is?
+kalmanX.measurementNoiseCov = 1e-3 * np.ones((1, 1))
+kalmanX.errorCovPost = 1. * np.ones((2, 2))
+kalmanX.statePost = 0.1 * np.random.randn(2, 1)  # i guess this is adding some noise...?
+
+kalmanY.transitionMatrix = np.array([[1., 0.], [0., 1.]])
+kalmanY.measurementMatrix = 1. * np.ones((1, 2))
+kalmanY.processNoiseCov = 1e-5 * np.eye(2)
+kalmanY.measurementNoiseCov = 1e-3 * np.ones((1, 1))
+kalmanY.errorCovPost = 1. * np.ones((2, 2))
+kalmanY.statePost = 0.1 * np.random.randn(2, 1)
+'''
 
 # Check if camera opened successfully
 if cap.isOpened() is False:
     print("Error opening video stream or file")
 
 # Create a new figure for plt
-fig, figarray = plt.subplots(2,1)
+fig, figarray = plt.subplots(2, 1)
 # Read until video is completed
 while cap.isOpened():
     # Capture frame-by-frame
@@ -43,15 +65,20 @@ while cap.isOpened():
         frameDiff = cv2.absdiff(prevFrame, frame)
         # _, frameDiff = saliency.computeSaliency(frameDiff)
         # frameDiff = (frameDiff * 255).astype('uint8')
-        # _, threshDiff = cv2.threshold(frameDiff, threshVal, 255, cv2.ADAPTIVE_THRESH_MEAN_C)
         _, threshDiff = cv2.threshold(frameDiff, threshVal, 255, cv2.ADAPTIVE_THRESH_MEAN_C)
 
-        # threshDiff = cv2.dilate(threshDiff, None, iterations=dilationIterations)
-        # contours, _ = cv2.findContours(threshDiff.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        '''
+        threshDiff = cv2.dilate(threshDiff, None, iterations=dilationIterations)
+        contours, _ = cv2.findContours(threshDiff.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
         for c in contours:
             if cv2.contourArea(c) < minArea:
                 continue
+
+            # Kalman prediction state
+            predictionX = kalmanX.predict()
+            predictionY = kalmanY.predict()
+
+            predictedPoints.append((predictionX, predictionY))
 
             # find center of the contour
             myMoment = cv2.moments(c)
@@ -59,8 +86,16 @@ while cap.isOpened():
             yMom = int(myMoment['m01'] / myMoment['m00'])
 
             # Check if the centroids are very different from the last one
-
             trackedPoints.appendleft((xMom, yMom))
+
+
+            # Kalman update step
+            testX = np.array(xMom, dtype=np.float32).reshape((1,))
+            testY = np.array(yMom, dtype=np.float32).reshape((1,))
+            kalmanX.correct(testX)
+            kalmanY.correct(testY)
+
+            print('prediction: ', predictionX, 'measurement: ', testX)
 
             # Draw bounding box(es)
             (xPos, yPos, width, height) = cv2.boundingRect(c)
@@ -70,9 +105,10 @@ while cap.isOpened():
             # loop through the tracked points
             for i in range(1, len(trackedPoints)):
                 cv2.line(initFrame, trackedPoints[i-1], trackedPoints[i], (0, 0, 255), lineThick)
-        '''
+                cv2.line(initFrame, predictedPoints[i-1], predictedPoints[i], (0, 255, 0), lineThick)
+
         figarray[0].imshow(threshDiff)
-        figarray[1].imshow(frameDiff)
+        figarray[1].imshow(initFrame)
         plt.pause(0.001)
 
         myList.append(threshDiff)

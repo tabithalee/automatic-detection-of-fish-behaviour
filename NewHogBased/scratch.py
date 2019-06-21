@@ -36,8 +36,8 @@ if ret:
 frameCount = 0
 numberOfFrames = 5
 print(frame1.shape)
-#frameFlowArray = np.zeros_like(frame1)
-
+frameFlowArray = np.zeros(5 * (frame1.shape[0], frame1.shape[1], 2), dtype=np.float32)
+print('flow array shape: ', frameFlowArray.shape)
 
 while(cap.isOpened()):
     ret, frame2 = cap.read()

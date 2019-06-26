@@ -2,7 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000022.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000022.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000023.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000023.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000024.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000024.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000025.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000025.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000026.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000026.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000027.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000027.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000028.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000028.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000029.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000029.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000030.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000030.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000031.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000031.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000032.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000032.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000033.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000033.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000034.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000034.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000035.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000035.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000036.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000036.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000037.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000037.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000038.png" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/00000038.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="82" column="53" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
+            <state relative-caret-position="237">
+              <caret line="99" column="27" selection-start-line="99" selection-start-column="27" selection-end-line="99" selection-end-column="27" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -247,8 +265,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="82" column="53" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
+        <state relative-caret-position="237">
+          <caret line="99" column="27" selection-start-line="99" selection-start-column="27" selection-end-line="99" selection-end-column="27" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

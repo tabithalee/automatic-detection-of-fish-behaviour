@@ -40,7 +40,8 @@ if ret:
 frameCount = 0
 numberOfFrames = 3
 numBins = 16
-myRange = np.arange(0, math.pi*((numBins+1)/(numBins)), math.pi/numBins)
+myRange = np.arange(0, 2 * math.pi + (2*math.pi/numBins), 2*math.pi/numBins)
+print(myRange)
 summedHist = np.zeros((numBins,))
 savedPlotCount = 0
 
@@ -73,16 +74,21 @@ while(cap.isOpened()):
 
         flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
         mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        hsv[..., 0] = ang * 180 / np.pi / 2
+        print('cart to polar max: ', np.max(mag))
+
+        #print(np.max(hsv[...,0]))
         hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
         #frameHist, bins = np.histogram(ang, bins=myRange, weights=mag, density=True)
+        print('normalized max: ', np.max(hsv[..., 2]))
 
         #bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
         hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_OPEN, erosionKernel)
         hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_CLOSE, dilationKernel)
         _, hsv[..., 2] = cv2.threshold(hsv[..., 2], 12, 255, cv2.THRESH_TOZERO)
-        frameHist, bins = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=True)
+        print('processed max: ', np.max(hsv[..., 2]), 'ang range: ', np.min(ang), np.max(ang))
+        frameHist, bins = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=False)
 
+        hsv[..., 0] = ang * 180 / np.pi / 2
         bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
         # add the histograms
@@ -91,8 +97,8 @@ while(cap.isOpened()):
             figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                             + '{0:08}'.format(savedPlotCount) + '.png'
             plt.subplot(2, 1, 1)
-            plt.ylim(0, 15)
-            plt.bar(bins[:-1], summedHist, align='edge', width=math.pi/numBins)
+            plt.ylim(0, 700)
+            plt.bar(bins[:-1], summedHist, align='edge', width=2*math.pi/numBins)
             plt.savefig(figNameString)
             plt.clf()
 

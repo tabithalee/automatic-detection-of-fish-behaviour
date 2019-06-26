@@ -40,7 +40,7 @@ if ret:
 frameCount = 0
 numberOfFrames = 3
 numBins = 16
-myRange = np.arange(-math.pi, math.pi*((numBins/2+1)/(numBins/2)), math.pi/(numBins/2))
+myRange = np.arange(0, math.pi*((numBins+1)/(numBins)), math.pi/numBins)
 summedHist = np.zeros((numBins,))
 savedPlotCount = 0
 
@@ -53,11 +53,35 @@ while(cap.isOpened()):
     ret, frame2 = cap.read()
     if ret:
         next = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+
+        #next = cv2.adaptiveThreshold(next, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+
+        # adding a little bit of gaussian to try and remove noise
+        # next = cv2.GaussianBlur(next, (31, 31), 0)
+
+        # adding otsu's method and morphological operations
+        #_, next = cv2.threshold(next, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+        # erosion
+        #erosionKernel = np.ones((5, 5), np.uint8)
+        erosionKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
+        dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
+        #next = cv2.erode(next, erosionKernel, iterations=3)
+        #next = cv2.morphologyEx(next, cv2.MORPH_OPEN, erosionKernel)
+        # filling
+        # dilation
+        #next = cv2.morphologyEx(next, cv2.MORPH_CLOSE, dilationKernel)
+
         flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
         mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         hsv[..., 0] = ang * 180 / np.pi / 2
         hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
-        frameHist, bins = np.histogram(ang, bins=myRange, weights=mag, density=True)
+        #frameHist, bins = np.histogram(ang, bins=myRange, weights=mag, density=True)
+
+        #bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+        hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_OPEN, erosionKernel)
+        hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_CLOSE, dilationKernel)
+        _, hsv[..., 2] = cv2.threshold(hsv[..., 2], 12, 255, cv2.THRESH_TOZERO)
+        frameHist, bins = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=True)
 
         bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
@@ -67,7 +91,8 @@ while(cap.isOpened()):
             figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                             + '{0:08}'.format(savedPlotCount) + '.png'
             plt.subplot(2, 1, 1)
-            plt.bar(bins[:-1], summedHist, align='edge', width=math.pi / (numBins / 2))
+            plt.ylim(0, 15)
+            plt.bar(bins[:-1], summedHist, align='edge', width=math.pi/numBins)
             plt.savefig(figNameString)
             plt.clf()
 

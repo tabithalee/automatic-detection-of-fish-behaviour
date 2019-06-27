@@ -92,6 +92,7 @@ while(cap.isOpened()):
         bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
         # add the histograms
+        # TODO - the frame and the histogram may be one frame off!
         if frameCount is numberOfFrames:
             # save histograms to file
             figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \

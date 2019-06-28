@@ -41,9 +41,10 @@ frameCount = 0
 numberOfFrames = 3
 numBins = 16
 myRange = np.arange(0, 2 * math.pi + (2*math.pi/numBins), 2*math.pi/numBins)
-print(myRange)
+#print(myRange)
 summedHist = np.zeros((numBins,))
 savedPlotCount = 0
+gridDivision = 3
 
 # Cannot specify a large array as not enough memory
 # frameFlowArray = np.zeros(5 * (frame1.shape[0], frame1.shape[1], 2), dtype=np.float32)
@@ -74,22 +75,36 @@ while(cap.isOpened()):
 
         flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
         mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        print('cart to polar max: ', np.max(mag))
+        #print('cart to polar max: ', np.max(mag))
 
         #print(np.max(hsv[...,0]))
         hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
         #frameHist, bins = np.histogram(ang, bins=myRange, weights=mag, density=True)
-        print('normalized max: ', np.max(hsv[..., 2]))
+        #print('normalized max: ', np.max(hsv[..., 2]))
 
         #bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
         hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_OPEN, erosionKernel)
         hsv[..., 2] = cv2.morphologyEx(hsv[..., 2], cv2.MORPH_CLOSE, dilationKernel)
         _, hsv[..., 2] = cv2.threshold(hsv[..., 2], 12, 255, cv2.THRESH_TOZERO)
-        print('processed max: ', np.max(hsv[..., 2]), 'ang range: ', np.min(ang), np.max(ang))
+        #print('processed max: ', np.max(hsv[..., 2]), 'ang range: ', np.min(ang), np.max(ang))
         frameHist, bins = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=False)
 
         hsv[..., 0] = ang * 180 / np.pi / 2
         bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+
+        # draw a 3x3 grid onto the image
+        # get the top points and the left points
+        heightDivision, widthDivision = np.floor(frame2.shape[0] / gridDivision).astype(np.int), np.floor(
+            frame2.shape[1] / gridDivision).astype(np.int)
+        topPoints = [(i * widthDivision, 0) for i in range(1, gridDivision)]
+        bottomPoints = [(i * widthDivision, frame2.shape[0]-1) for i in range(1, gridDivision)]
+        leftPoints = [(0, i * heightDivision) for i in range(1, gridDivision)]
+        rightPoints = [(frame2.shape[1]-1, i * heightDivision) for i in range(1, gridDivision)]
+        # draw a line
+        for i in range(len(topPoints)):
+            print(topPoints[i])
+            cv2.line(bgr, topPoints[i], bottomPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
+            cv2.line(bgr, leftPoints[i], rightPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
 
         # add the histograms
         # TODO - the frame and the histogram may be one frame off!
@@ -100,13 +115,13 @@ while(cap.isOpened()):
             plt.subplot(2, 1, 1)
             plt.ylim(0, 700)
             plt.bar(bins[:-1], summedHist, align='edge', width=2*math.pi/numBins)
-            plt.savefig(figNameString)
+            #plt.savefig(figNameString)
             plt.clf()
 
             savedPlotCount += 1
             frameCount = 0
             summedHist = np.zeros((numBins,))
-            print('saved figure', savedPlotCount)
+            #print('saved figure', savedPlotCount)
 
         summedHist += frameHist
 

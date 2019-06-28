@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="" />
+    <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000000.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000003.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000004.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000005.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000006.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000007.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000008.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000009.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000010.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000011.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000012.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000013.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000014.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000015.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000016.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000017.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000018.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000019.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000020.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000021.png" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,8 +49,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="121" column="13" lean-forward="true" selection-start-line="121" selection-start-column="13" selection-end-line="121" selection-end-column="13" />
+            <state relative-caret-position="345">
+              <caret line="101" column="61" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="61" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -35,11 +59,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../opencv/samples/python/lk_track.py">
+        <entry file="file://$PROJECT_DIR$/../lk_track.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="91" column="75" selection-start-line="91" selection-start-column="75" selection-end-line="91" selection-end-column="75" />
-            </state>
+            <state relative-caret-position="-675" />
           </provider>
         </entry>
       </file>
@@ -49,8 +71,8 @@
     <findStrings>
       <find>cv.</find>
       <find>vis</find>
-      <find>np.pi</find>
       <find>numBins</find>
+      <find>np.pi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -60,8 +82,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.py" />
-        <option value="$PROJECT_DIR$/scratch.py" />
         <option value="$PROJECT_DIR$/../../opencv/samples/python/lk_track.py" />
+        <option value="$PROJECT_DIR$/scratch.py" />
       </list>
     </option>
   </component>
@@ -103,7 +125,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="editor.config.ad.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MotionTracking/detect" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lk_track.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -245,10 +267,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../lk_track.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-675" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="121" column="13" lean-forward="true" selection-start-line="121" selection-start-column="13" selection-end-line="121" selection-end-column="13" />
+        <state relative-caret-position="345">
+          <caret line="101" column="61" selection-start-line="101" selection-start-column="61" selection-end-line="101" selection-end-column="61" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

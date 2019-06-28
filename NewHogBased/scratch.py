@@ -12,6 +12,15 @@ def get_histogram():
 def get_hsv_image():
 '''
 
+gridDivisionW = 8
+gridDivisionH = 6
+
+# returns a list with the regions of  interest
+def get_roi(frame, gridDivisionW, gridDivisionY):
+    roi_list = [frame[(x-1)*gridDivisionW:x*gridDivisionW, (y-1)*gridDivisionH:y*gridDivisionH] for x in gridDivisionW
+                for y in gridDivisionY]
+    print(len(roi_list), len(roi_list[0]))
+    return roi_list
 
 
 cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
@@ -54,8 +63,6 @@ myRange = np.arange(0, 2 * math.pi + (2*math.pi/numBins), 2*math.pi/numBins)
 #print(myRange)
 summedHist = np.zeros((numBins,))
 savedPlotCount = 0
-gridDivisionW = 8
-gridDivisionH = 6
 # Cannot specify a large array as not enough memory
 # frameFlowArray = np.zeros(5 * (frame1.shape[0], frame1.shape[1], 2), dtype=np.float32)
 

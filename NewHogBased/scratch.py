@@ -12,18 +12,20 @@ def get_histogram():
 def get_hsv_image():
 '''
 
-gridDivisionW = 8
-gridDivisionH = 6
+num_divisionsW = 8
+num_divisionsH = 6
 
 # returns a list with the regions of  interest
-def get_roi(frame, gridDivisionW, gridDivisionY):
-    roi_list = [frame[(x-1)*gridDivisionW:x*gridDivisionW, (y-1)*gridDivisionH:y*gridDivisionH] for x in gridDivisionW
-                for y in gridDivisionY]
-    print(len(roi_list), len(roi_list[0]))
+def get_roi(frame, num_divisionsW, num_divisionsH):
+    gridDivisionW = np.floor(frame.shape[1] / num_divisionsW).astype(np.int)
+    gridDivisionH = np.floor(frame.shape[0] / num_divisionsH).astype(np.int)
+    roi_list = [frame[x*gridDivisionW:(x+1)*gridDivisionW, y*gridDivisionH:(y+1)*gridDivisionH] for x in range(gridDivisionW)
+                for y in range(gridDivisionH)]
+    print(len(roi_list), np.array(roi_list[0]).shape)
     return roi_list
 
 
-cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
+cap = cv2.VideoCapture('/home/tabi/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
                        'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg')
 
 '''
@@ -74,7 +76,8 @@ while(cap.isOpened()):
         next = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 
         # here is where divide the frame into subregions
-
+        print('testing get_roi!')
+        get_roi(prvs, num_divisionsW, num_divisionsH)
 
         #next = cv2.adaptiveThreshold(next, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
 
@@ -115,12 +118,12 @@ while(cap.isOpened()):
 
         # draw a 3x3 grid onto the image
         # get the top points and the left points
-        heightDivision, widthDivision = np.floor(frame2.shape[0] / gridDivisionH).astype(np.int), np.floor(
-            frame2.shape[1] / gridDivisionW).astype(np.int)
-        topPoints = [(i * widthDivision, 0) for i in range(1, gridDivisionW)]
-        bottomPoints = [(i * widthDivision, frame2.shape[0]-1) for i in range(1, gridDivisionW)]
-        leftPoints = [(0, i * heightDivision) for i in range(1, gridDivisionH)]
-        rightPoints = [(frame2.shape[1]-1, i * heightDivision) for i in range(1, gridDivisionH)]
+        heightDivision, widthDivision = np.floor(frame2.shape[0] / num_divisionsH).astype(np.int), np.floor(
+            frame2.shape[1] / num_divisionsW).astype(np.int)
+        topPoints = [(i * widthDivision, 0) for i in range(1, num_divisionsW)]
+        bottomPoints = [(i * widthDivision, frame2.shape[0]-1) for i in range(1, num_divisionsW)]
+        leftPoints = [(0, i * heightDivision) for i in range(1, num_divisionsH)]
+        rightPoints = [(frame2.shape[1]-1, i * heightDivision) for i in range(1, num_divisionsH)]
         # draw a line
         for i in range(len(topPoints)):
             #print(topPoints[i])

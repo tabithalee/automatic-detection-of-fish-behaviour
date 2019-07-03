@@ -73,7 +73,7 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
 def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins):
     if frameCount is numberOfFrames:
         # save histograms to file
-        figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
+        figNameString = '/home/tabi/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
         plt.subplot(2, 1, 1)
         plt.ylim(0, 700)
@@ -102,7 +102,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 # Create some random colors for direction coding
 color = np.random.randint(0,255,(100,3))
 
-cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
+cap = cv2.VideoCapture('/home/tabi/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
                        'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg')
 
 # Check if video stream is valid
@@ -148,9 +148,10 @@ while cap.isOpened():
         heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
             bgr.shape[1] / num_divisionsW).astype(np.int)
 
-        non_displayed_region = 2
-        startX = (non_displayed_region % num_divisionsW) * widthDivision
-        startY = (non_displayed_region % num_divisionsH) * heightDivision
+        non_displayed_region = 4
+        startX = ((non_displayed_region + 1) % num_divisionsW) * widthDivision
+        startY = np.floor((non_displayed_region - 1) / num_divisionsH).astype(np.int) * heightDivision
+        print('startY: ', startY)
         bgr[startY:startY + heightDivision,
             startX:startX + widthDivision] = (255, 255, 255)
 

@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import math
 
 # -----------------------------------PARAMETERS-----------------------------------------------
-num_divisionsW = 8
-num_divisionsH = 6
+num_divisionsW = 2
+num_divisionsH = 2
 
 numberOfFrames = 3
 numBins = 16
@@ -88,9 +88,11 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 
     summedHist += frameHist
 
+    '''
     plt.subplot(2, 1, 2)
     plt.imshow(bgr)
     plt.pause(0.001)
+    '''
 
     return frameCount, savedPlotCount, summedHist
 
@@ -114,6 +116,8 @@ if ret:
     hsv = np.zeros_like(frame1)
     hsv[..., 1] = 255
 
+# define subregion of interest
+subregion_list = [0]
 
 while cap.isOpened():
     ret, frame2 = cap.read()
@@ -124,8 +128,12 @@ while cap.isOpened():
         dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
 
         # here is where divide the frame into subregions
-        get_roi(prvs, num_divisionsW, num_divisionsH)
+        roi_list = get_roi(prvs, num_divisionsW, num_divisionsH)
 
+        '''
+        # get summed histogram of just the area specified
+        for i in subregion_list:
+        '''
         # get individual histograms
         hsv, frameHist = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange)
 
@@ -133,6 +141,24 @@ while cap.isOpened():
 
         # draw grid
         draw_grid(num_divisionsH, num_divisionsW, bgr)
+
+        # display the subregions of interest
+
+        # black out a corner region
+        heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
+            bgr.shape[1] / num_divisionsW).astype(np.int)
+
+        non_displayed_region = 2
+        startX = (non_displayed_region % num_divisionsW) * widthDivision
+        startY = (non_displayed_region % num_divisionsH) * heightDivision
+        bgr[startY:startY + heightDivision,
+            startX:startX + widthDivision] = (255, 255, 255)
+
+        plt.subplot(2, 1, 2)
+
+        # match the area of interest
+        plt.imshow(bgr)
+        plt.pause(0.001)
 
         # add the histograms
         frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist,

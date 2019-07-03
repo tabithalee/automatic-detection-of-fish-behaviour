@@ -7,7 +7,8 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
-non_displayed_region = 3
+tracked_region_list = [3, 4]
+non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
 
 numberOfFrames = 3
 numBins = 16
@@ -19,13 +20,45 @@ summedHist = np.zeros((numBins,))
 
 # -----------------------------------METHODS-------------------------------------------------
 
+
+def find_index_location(bgr, num_divisionsH, num_divisionsW, heightDivision, widthDivision, index):
+    # calculate left corner point (x,y) of window
+    startX = ((index - 1) % num_divisionsW) * widthDivision
+    startY = np.floor((index - 1) / num_divisionsH).astype(np.int) * heightDivision
+
+    return startX, startY
+
+
+def non_display_window(bgr, num_divisionsH, num_divisionsW, non_displayed_region):
+    # calculate height and width of window to not display
+    heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
+        bgr.shape[1] / num_divisionsW).astype(np.int)
+
+    startX, startY = find_index_location(bgr, num_divisionsH, num_divisionsW, heightDivision, widthDivision,
+                                         non_displayed_region)
+
+    # assign window to white in HSV
+    bgr[startY:startY + heightDivision, startX:startX + widthDivision] = (255, 255, 255)
+
+
+def get_prvs_windows(index, roi_list, prvs_window_list):
+    prvs_window_list.append(roi_list[index - 1])
+    return prvs_window_list
+
+
+def get_next_window(index, roi_list, next_window_list):
+    return next_window_list
+
+
 # returns a list with the pixels of the regions of  interest
 def get_roi(frame, num_divisionsW, num_divisionsH):
     gridDivisionW = np.floor(frame.shape[1] / num_divisionsW).astype(np.int)
     gridDivisionH = np.floor(frame.shape[0] / num_divisionsH).astype(np.int)
-    roi_list = [frame[x*gridDivisionW:(x+1)*gridDivisionW, y*gridDivisionH:(y+1)*gridDivisionH] for x in range(num_divisionsW)
+    roi_list = [(frame[y*gridDivisionH:(y+1)*gridDivisionH, x*gridDivisionW:(x+1)*gridDivisionW]) for x in range(num_divisionsW)
                 for y in range(num_divisionsH)]
     return roi_list
+
+
 
 
 # returns a histogram and hsv values for displaying
@@ -78,7 +111,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
         plt.subplot(2, 1, 1)
-        plt.ylim(0, 700)
+        plt.ylim(0, 300000)
         plt.bar(myRange[:-1], summedHist, align='edge', width=2 * math.pi / numBins)
         # plt.savefig(figNameString)
         # plt.clf()
@@ -90,19 +123,6 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 
     summedHist += frameHist
     return frameCount, savedPlotCount, summedHist
-
-
-def non_display_window(bgr, num_divisionsH, num_divisionsW, non_displayed_region):
-    # calculate height and width of window to not display
-    heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
-        bgr.shape[1] / num_divisionsW).astype(np.int)
-
-    # calculate left corner point (x,y) of window
-    startX = ((non_displayed_region - 1) % num_divisionsW) * widthDivision
-    startY = np.floor((non_displayed_region - 1) / num_divisionsH).astype(np.int) * heightDivision
-
-    # assign window to white in HSV
-    bgr[startY:startY + heightDivision, startX:startX + widthDivision] = (255, 255, 255)
 
 # -----------------------------------START---------------------------------------------------
 
@@ -116,12 +136,18 @@ cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behavi
 if (cap.isOpened() == False):
     print("Error opening video stream or file")
 
+
+next_window_list = []
+
 # Take first frame
 ret, frame1 = cap.read()
 if ret:
     prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
     hsv = np.zeros_like(frame1)
+    frame_hsv = np.zeros((np.floor(frame1.shape[0] / num_divisionsH).astype(np.int),
+                          np.floor(frame1.shape[1] / num_divisionsW).astype(np.int), 3))
     hsv[..., 1] = 255
+    frame_hsv[..., 1] = 255
 
 while cap.isOpened():
     ret, frame2 = cap.read()
@@ -132,22 +158,30 @@ while cap.isOpened():
         dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
 
         # here is where divide the frame into subregions
-        roi_list = get_roi(prvs, num_divisionsW, num_divisionsH)
+        roi_list_prvs = get_roi(prvs, num_divisionsW, num_divisionsH)
+        roi_list_next = get_roi(next, num_divisionsW, num_divisionsH)
 
-        '''
-        # get summed histogram of just the area specified
-        for i in subregion_list:
-        '''
+        prvs_window_list = [roi_list_prvs[i-1] for i in tracked_region_list]
+        next_window_list = [roi_list_next[i-1] for i in tracked_region_list]
+
+        # get HSV for entire frame
+        hsv, _ = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange)
+
         # get individual histograms
-        hsv, frameHist = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange)
+        frameHist = [get_histogram(prvs_window_list[i], next_window_list[i], frame_hsv, erosionKernel, dilationKernel, myRange)[1]
+                     for i in range(len(tracked_region_list))]
+
+        # sum up the histograms per frame
+        frameSummedHist = np.sum(frameHist, axis=0)
 
         bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
         # draw grid
         draw_grid(num_divisionsH, num_divisionsW, bgr)
 
-        # display the subregions of interest
-        non_display_window(bgr, num_divisionsH, num_divisionsW, non_displayed_region)
+        # not displaying regions that are not of interest
+        for i in non_displayed_region:
+            non_display_window(bgr, num_divisionsH, num_divisionsW, i)
 
         plt.subplot(2, 1, 2)
 
@@ -156,8 +190,8 @@ while cap.isOpened():
         plt.pause(0.001)
 
         # add the histograms
-        frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist,
-                                                                summedHist, myRange, numBins)
+        frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount,
+                                                                frameSummedHist, summedHist, myRange, numBins)
 
         prvs = next
         frameCount += 1

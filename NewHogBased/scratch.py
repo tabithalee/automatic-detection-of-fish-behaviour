@@ -7,6 +7,8 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
+non_displayed_region = 3
+
 numberOfFrames = 3
 numBins = 16
 myRange = np.arange(0, 2 * math.pi + (2*math.pi/numBins), 2*math.pi/numBins)
@@ -26,7 +28,7 @@ def get_roi(frame, num_divisionsW, num_divisionsH):
     return roi_list
 
 
-# returns a list of histograms and hsv values for displaying
+# returns a histogram and hsv values for displaying
 def get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange):
     # Get Gunnar-Farneback optical flow
     flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
@@ -73,7 +75,7 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
 def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins):
     if frameCount is numberOfFrames:
         # save histograms to file
-        figNameString = '/home/tabi/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
+        figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
         plt.subplot(2, 1, 1)
         plt.ylim(0, 700)
@@ -87,22 +89,27 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         # print('saved figure', savedPlotCount)
 
     summedHist += frameHist
-
-    '''
-    plt.subplot(2, 1, 2)
-    plt.imshow(bgr)
-    plt.pause(0.001)
-    '''
-
     return frameCount, savedPlotCount, summedHist
 
+
+def non_display_window(bgr, num_divisionsH, num_divisionsW, non_displayed_region):
+    # calculate height and width of window to not display
+    heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
+        bgr.shape[1] / num_divisionsW).astype(np.int)
+
+    # calculate left corner point (x,y) of window
+    startX = ((non_displayed_region - 1) % num_divisionsW) * widthDivision
+    startY = np.floor((non_displayed_region - 1) / num_divisionsH).astype(np.int) * heightDivision
+
+    # assign window to white in HSV
+    bgr[startY:startY + heightDivision, startX:startX + widthDivision] = (255, 255, 255)
 
 # -----------------------------------START---------------------------------------------------
 
 # Create some random colors for direction coding
 color = np.random.randint(0,255,(100,3))
 
-cap = cv2.VideoCapture('/home/tabi/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
+cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
                        'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg')
 
 # Check if video stream is valid
@@ -115,9 +122,6 @@ if ret:
     prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
     hsv = np.zeros_like(frame1)
     hsv[..., 1] = 255
-
-# define subregion of interest
-subregion_list = [0]
 
 while cap.isOpened():
     ret, frame2 = cap.read()
@@ -143,17 +147,7 @@ while cap.isOpened():
         draw_grid(num_divisionsH, num_divisionsW, bgr)
 
         # display the subregions of interest
-
-        # black out a corner region
-        heightDivision, widthDivision = np.floor(bgr.shape[0] / num_divisionsH).astype(np.int), np.floor(
-            bgr.shape[1] / num_divisionsW).astype(np.int)
-
-        non_displayed_region = 4
-        startX = ((non_displayed_region + 1) % num_divisionsW) * widthDivision
-        startY = np.floor((non_displayed_region - 1) / num_divisionsH).astype(np.int) * heightDivision
-        print('startY: ', startY)
-        bgr[startY:startY + heightDivision,
-            startX:startX + widthDivision] = (255, 255, 255)
+        non_display_window(bgr, num_divisionsH, num_divisionsW, non_displayed_region)
 
         plt.subplot(2, 1, 2)
 

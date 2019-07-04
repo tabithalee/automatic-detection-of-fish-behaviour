@@ -7,7 +7,7 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
-tracked_region_list = [1, 2, 3, 4]
+tracked_region_list = [3, 4]
 non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
 
 numberOfFrames = 3
@@ -21,13 +21,16 @@ summedHist = np.zeros((numBins,))
 videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
               'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg'
 
-saveHistograms = False
+saveHistograms = True
 
 # saliency methods according to number
 #   1     FineGrained
 #   2     SpectralResidual
 saliencyMethod = 2
 saliencyOn = False
+
+# blurring parameters
+gaussianSize = (21, 21)
 # -----------------------------------METHODS-------------------------------------------------
 
 
@@ -121,8 +124,8 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
         plt.subplot(2, 1, 1)
-        plt.ylim(0, 300000)
-        plt.bar(myRange[:-1], summedHist, align='edge', width=2 * math.pi / numBins)
+        plt.ylim(0, 3)
+        plt.bar(myRange[:-1], summedHist / 153600, align='edge', width=2 * math.pi / numBins)
         if save is True:
             plt.savefig(figNameString)
             plt.clf()
@@ -173,6 +176,8 @@ while cap.isOpened():
         if saliencyOn is True:
             # Compute saliency
             _, next = saliency.computeSaliency(next)
+
+        #next = cv2.GaussianBlur(next, gaussianSize, 0)
 
         erosionKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
         dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))

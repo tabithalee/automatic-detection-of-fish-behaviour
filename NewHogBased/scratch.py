@@ -7,7 +7,7 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
-tracked_region_list = [3, 4]
+tracked_region_list = [1]
 non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
 
 numberOfFrames = 3
@@ -18,6 +18,10 @@ frameCount = 0
 savedPlotCount = 0
 summedHist = np.zeros((numBins,))
 
+videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
+              'BC_POD1_PTILTVIDEO_20110522T173147.000Z_2.ogg'
+
+saveHistograms = True
 # -----------------------------------METHODS-------------------------------------------------
 
 
@@ -105,7 +109,7 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
         cv2.line(bgr, leftPoints[i], rightPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
 
 
-def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins):
+def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins, save):
     if frameCount is numberOfFrames:
         # save histograms to file
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
@@ -113,13 +117,15 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         plt.subplot(2, 1, 1)
         plt.ylim(0, 300000)
         plt.bar(myRange[:-1], summedHist, align='edge', width=2 * math.pi / numBins)
-        # plt.savefig(figNameString)
-        # plt.clf()
+        if save is True:
+            plt.savefig(figNameString)
+            plt.clf()
 
         savedPlotCount += 1
         frameCount = 0
         summedHist = np.zeros((numBins,))
-        # print('saved figure', savedPlotCount)
+        if save is True:
+            print('saved figure', savedPlotCount)
 
     summedHist += frameHist
     return frameCount, savedPlotCount, summedHist
@@ -129,8 +135,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 # Create some random colors for direction coding
 color = np.random.randint(0,255,(100,3))
 
-cap = cv2.VideoCapture('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/'
-                       'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg')
+cap = cv2.VideoCapture(videoString)
 
 # Check if video stream is valid
 if (cap.isOpened() == False):
@@ -191,7 +196,8 @@ while cap.isOpened():
 
         # add the histograms
         frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount,
-                                                                frameSummedHist, summedHist, myRange, numBins)
+                                                                frameSummedHist, summedHist, myRange, numBins,
+                                                                saveHistograms)
 
         prvs = next
         frameCount += 1

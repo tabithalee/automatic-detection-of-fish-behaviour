@@ -7,7 +7,7 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
-tracked_region_list = [1]
+tracked_region_list = [1, 2, 3, 4]
 non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
 
 numberOfFrames = 3
@@ -19,9 +19,15 @@ savedPlotCount = 0
 summedHist = np.zeros((numBins,))
 
 videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
-              'BC_POD1_PTILTVIDEO_20110522T173147.000Z_2.ogg'
+              'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg'
 
-saveHistograms = True
+saveHistograms = False
+
+# saliency methods according to number
+#   1     FineGrained
+#   2     SpectralResidual
+saliencyMethod = 2
+saliencyOn = False
 # -----------------------------------METHODS-------------------------------------------------
 
 
@@ -66,7 +72,7 @@ def get_roi(frame, num_divisionsW, num_divisionsH):
 
 
 # returns a histogram and hsv values for displaying
-def get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange):
+def get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod):
     # Get Gunnar-Farneback optical flow
     flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
 
@@ -137,12 +143,17 @@ color = np.random.randint(0,255,(100,3))
 
 cap = cv2.VideoCapture(videoString)
 
+# Create an opencv saliency object
+if saliencyMethod is 1:
+    saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+elif saliencyMethod is 2:
+    saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
+else:
+    print('Not a valid saliency number')
+
 # Check if video stream is valid
-if (cap.isOpened() == False):
+if cap.isOpened() is False:
     print("Error opening video stream or file")
-
-
-next_window_list = []
 
 # Take first frame
 ret, frame1 = cap.read()
@@ -159,6 +170,10 @@ while cap.isOpened():
     if ret:
         next = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
 
+        if saliencyOn is True:
+            # Compute saliency
+            _, next = saliency.computeSaliency(next)
+
         erosionKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
         dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
 
@@ -170,10 +185,11 @@ while cap.isOpened():
         next_window_list = [roi_list_next[i-1] for i in tracked_region_list]
 
         # get HSV for entire frame
-        hsv, _ = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange)
+        hsv, _ = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod)
 
         # get individual histograms
-        frameHist = [get_histogram(prvs_window_list[i], next_window_list[i], frame_hsv, erosionKernel, dilationKernel, myRange)[1]
+        frameHist = [get_histogram(prvs_window_list[i], next_window_list[i], frame_hsv, erosionKernel, dilationKernel,
+                                   myRange, saliencyMethod)[1]
                      for i in range(len(tracked_region_list))]
 
         # sum up the histograms per frame

@@ -21,7 +21,7 @@ summedHist = np.zeros((numBins,))
 videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
               'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg'
 
-saveHistograms = True
+saveHistograms = False
 
 # saliency methods according to number
 #   1     FineGrained
@@ -124,7 +124,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
         plt.subplot(2, 1, 1)
-        plt.ylim(0, 3)
+        plt.ylim(0, 60)
         plt.bar(myRange[:-1], summedHist / 153600, align='edge', width=2 * math.pi / numBins)
         if save is True:
             plt.savefig(figNameString)
@@ -137,6 +137,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
             print('saved figure', savedPlotCount)
 
     summedHist += frameHist
+
     return frameCount, savedPlotCount, summedHist
 
 # -----------------------------------START---------------------------------------------------
@@ -157,6 +158,8 @@ else:
 # Check if video stream is valid
 if cap.isOpened() is False:
     print("Error opening video stream or file")
+
+the_max_max = 0
 
 # Take first frame
 ret, frame1 = cap.read()
@@ -219,6 +222,11 @@ while cap.isOpened():
         frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount,
                                                                 frameSummedHist, summedHist, myRange, numBins,
                                                                 saveHistograms)
+
+        # find the maximum value of the histogram
+        if np.amax(summedHist) > the_max_max:
+            the_max_max = np.amax(summedHist)
+            print('new max: ', np.max(summedHist) / 153600)
 
         prvs = next
         frameCount += 1

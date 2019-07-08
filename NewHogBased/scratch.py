@@ -3,16 +3,20 @@ import cv2
 import matplotlib.pyplot as plt
 import math
 
+
 # -----------------------------------PARAMETERS-----------------------------------------------
+
+
 num_divisionsW = 2
 num_divisionsH = 2
 
 tracked_region_list = [3, 4]
-non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
+
+ylim_max = 60
 
 numberOfFrames = 3
 numBins = 16
-myRange = np.arange(0, 2 * math.pi + (2*math.pi/numBins), 2*math.pi/numBins)
+myRange = np.arange(0, 2 * math.pi + (2 * math.pi / numBins), 2 * math.pi / numBins)
 
 frameCount = 0
 savedPlotCount = 0
@@ -31,6 +35,16 @@ saliencyOn = False
 
 # blurring parameters
 gaussianSize = (21, 21)
+
+# histogram plot layout
+hist_layout = plt.GridSpec(2, 2)
+
+# -----------------------------------DERIVED VARIABLES---------------------------------------
+
+
+non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
+
+
 # -----------------------------------METHODS-------------------------------------------------
 
 
@@ -70,8 +84,6 @@ def get_roi(frame, num_divisionsW, num_divisionsH):
     roi_list = [(frame[y*gridDivisionH:(y+1)*gridDivisionH, x*gridDivisionW:(x+1)*gridDivisionW]) for x in range(num_divisionsW)
                 for y in range(num_divisionsH)]
     return roi_list
-
-
 
 
 # returns a histogram and hsv values for displaying
@@ -118,14 +130,24 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
         cv2.line(bgr, leftPoints[i], rightPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
 
 
-def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins, save):
+def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins,
+                   save, hist_layout):
+
     if frameCount is numberOfFrames:
         # save histograms to file
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
-        plt.subplot(2, 1, 1)
-        plt.ylim(0, 60)
-        plt.bar(myRange[:-1], summedHist / 153600, align='edge', width=2 * math.pi / numBins)
+        plt.subplot(hist_layout[0, 0:])
+        plt.ylim(0, ylim_max)
+        plt.bar(myRange[:-1], summedHist / hist_scaling_factor, align='edge', width=2 * math.pi / numBins)
+
+        # plot visualisation stuff
+        plt.title('Histogram of Optical Flow')
+        plt.ylabel('Scaled Vector Histogram')
+        plt.xlabel('Degrees (rad)')
+        plt.grid(True)
+        plt.tight_layout()
+
         if save is True:
             plt.savefig(figNameString)
             plt.clf()
@@ -140,7 +162,9 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 
     return frameCount, savedPlotCount, summedHist
 
+
 # -----------------------------------START---------------------------------------------------
+
 
 # Create some random colors for direction coding
 color = np.random.randint(0,255,(100,3))
@@ -160,14 +184,20 @@ if cap.isOpened() is False:
     print("Error opening video stream or file")
 
 the_max_max = 0
+pixels_width = 0
+pixels_height = 0
+hist_scaling_factor = 0
 
 # Take first frame
 ret, frame1 = cap.read()
 if ret:
+    pixels_width = np.floor(frame1.shape[1] / num_divisionsW).astype(np.int)
+    pixels_height = np.floor(frame1.shape[0] / num_divisionsH).astype(np.int)
+    hist_scaling_factor = len(tracked_region_list) * pixels_height * pixels_width
+
     prvs = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
     hsv = np.zeros_like(frame1)
-    frame_hsv = np.zeros((np.floor(frame1.shape[0] / num_divisionsH).astype(np.int),
-                          np.floor(frame1.shape[1] / num_divisionsW).astype(np.int), 3))
+    frame_hsv = np.zeros((pixels_height, pixels_width, 3))
     hsv[..., 1] = 255
     frame_hsv[..., 1] = 255
 
@@ -212,21 +242,27 @@ while cap.isOpened():
         for i in non_displayed_region:
             non_display_window(bgr, num_divisionsH, num_divisionsW, i)
 
-        plt.subplot(2, 1, 2)
+        plt.subplot(hist_layout[1, 0])
 
         # match the area of interest
+        plt.title('Optical Flow')
         plt.imshow(bgr)
+
+        # display original video
+        plt.subplot(hist_layout[1, 1])
+        plt.title('Original Video')
+        plt.imshow(frame2)
         plt.pause(0.001)
 
         # add the histograms
         frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount,
                                                                 frameSummedHist, summedHist, myRange, numBins,
-                                                                saveHistograms)
+                                                                saveHistograms, hist_layout)
 
         # find the maximum value of the histogram
         if np.amax(summedHist) > the_max_max:
             the_max_max = np.amax(summedHist)
-            print('new max: ', np.max(summedHist) / 153600)
+            print('new max: ', np.max(summedHist) / hist_scaling_factor)
 
         prvs = next
         frameCount += 1

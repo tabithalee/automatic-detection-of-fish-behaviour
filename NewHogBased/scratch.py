@@ -22,8 +22,8 @@ ylim_max = 60
 numberOfFrames = 3
 numBins = 16
 
-videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
-              'BC_POD1_PTILTVIDEO_20110615T192950.000Z_2.ogg'
+videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/' \
+              'BC_POD1_PTILTVIDEO_20110703T190647.000Z_3.ogg'
 
 saveHistograms = True
 
@@ -189,6 +189,10 @@ the_max_max = 0
 pixels_width = 0
 pixels_height = 0
 hist_scaling_factor = 0
+
+skew_list = []
+kurtosis_list = []
+max_list = []
 
 # Take first frame
 ret, frame1 = cap.read()

@@ -3,6 +3,11 @@ import cv2
 import matplotlib.pyplot as plt
 import math
 
+from scipy.stats import skew
+from scipy.stats import kurtosis
+
+from matplotlib.offsetbox import AnchoredText
+
 
 # -----------------------------------PARAMETERS-----------------------------------------------
 
@@ -10,40 +15,37 @@ import math
 num_divisionsW = 2
 num_divisionsH = 2
 
-tracked_region_list = [3, 4]
+tracked_region_list = [1, 2, 3, 4]
 
 ylim_max = 60
 
 numberOfFrames = 3
 numBins = 16
-myRange = np.arange(0, 2 * math.pi + (2 * math.pi / numBins), 2 * math.pi / numBins)
-
-frameCount = 0
-savedPlotCount = 0
-summedHist = np.zeros((numBins,))
 
 videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/' \
-              'BC_POD1_PTILTVIDEO_20110522T114342.000Z_3.ogg'
+              'BC_POD1_PTILTVIDEO_20110615T192950.000Z_2.ogg'
 
-saveHistograms = False
+saveHistograms = True
 
 # saliency methods according to number
 #   1     FineGrained
 #   2     SpectralResidual
-saliencyMethod = 2
+saliencyMethod = 1
 saliencyOn = False
 
-# blurring parameters
+# blurring parameters (not used!!)
 gaussianSize = (21, 21)
-
 # histogram plot layout
 hist_layout = plt.GridSpec(2, 2)
 
 # -----------------------------------DERIVED VARIABLES---------------------------------------
 
+frameCount = 0
+savedPlotCount = 0
+summedHist = np.zeros((numBins,))
 
 non_displayed_region = [i for i in range(1, num_divisionsW * num_divisionsH + 1) if (i not in tracked_region_list)]
-
+myRange = np.arange(0, 2 * math.pi + (2 * math.pi / numBins), 2 * math.pi / numBins)
 
 # -----------------------------------METHODS-------------------------------------------------
 
@@ -259,10 +261,23 @@ while cap.isOpened():
                                                                 frameSummedHist, summedHist, myRange, numBins,
                                                                 saveHistograms, hist_layout)
 
+        hist_skew = skew(summedHist)
+        hist_kurtosis = kurtosis(summedHist)
+
+        hist_text = '\n'.join(('skew=%.2f' % (hist_skew, ), 'kurtosis=%.2f' % (hist_kurtosis, ),
+                               'max=%.2f' % (np.amax(summedHist) / hist_scaling_factor, )))
+
+        plt.subplot(hist_layout[0, 0:])
+        text_box = AnchoredText(hist_text, frameon=True, loc=2, pad=0.15)
+        plt.setp(text_box.patch, facecolor='white', alpha=1)
+        plt.gca().add_artist(text_box)
+
+        '''
         # find the maximum value of the histogram
         if np.amax(summedHist) > the_max_max:
             the_max_max = np.amax(summedHist)
             print('new max: ', np.max(summedHist) / hist_scaling_factor)
+        '''
 
         prvs = next
         frameCount += 1

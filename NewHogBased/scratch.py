@@ -22,8 +22,10 @@ ylim_max = 60
 numberOfFrames = 3
 numBins = 16
 
-videoString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/' \
-              'BC_POD1_PTILTVIDEO_20110703T190647.000Z_3.ogg'
+startleFrame = 18
+
+videoTitle = 'BC_POD1_PTILTVIDEO_20110703T190647.000Z_3.ogg'
+videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle))
 
 saveHistograms = True
 
@@ -35,8 +37,11 @@ saliencyOn = False
 
 # blurring parameters (not used!!)
 gaussianSize = (21, 21)
+
 # histogram plot layout
+plt.figure("main figure")
 hist_layout = plt.GridSpec(2, 2)
+
 
 # -----------------------------------DERIVED VARIABLES---------------------------------------
 
@@ -139,6 +144,7 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         # save histograms to file
         figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
                         + '{0:08}'.format(savedPlotCount) + '.png'
+        plt.figure("main figure")
         plt.subplot(hist_layout[0, 0:])
         plt.ylim(0, ylim_max)
         plt.bar(myRange[:-1], summedHist / hist_scaling_factor, align='edge', width=2 * math.pi / numBins)
@@ -248,6 +254,7 @@ while cap.isOpened():
         for i in non_displayed_region:
             non_display_window(bgr, num_divisionsH, num_divisionsW, i)
 
+        plt.figure("main figure")
         plt.subplot(hist_layout[1, 0])
 
         # match the area of interest
@@ -265,11 +272,16 @@ while cap.isOpened():
                                                                 frameSummedHist, summedHist, myRange, numBins,
                                                                 saveHistograms, hist_layout)
 
+        # calculate and save the histogram metrics
         hist_skew = skew(summedHist)
+        skew_list.append(hist_skew)
         hist_kurtosis = kurtosis(summedHist)
+        kurtosis_list.append(hist_kurtosis)
+        hist_max = np.amax(summedHist)
+        max_list.append(hist_max)
 
         hist_text = '\n'.join(('skew=%.2f' % (hist_skew, ), 'kurtosis=%.2f' % (hist_kurtosis, ),
-                               'max=%.2f' % (np.amax(summedHist) / hist_scaling_factor, )))
+                               'max=%.2f' % (hist_max / hist_scaling_factor, )))
 
         plt.subplot(hist_layout[0, 0:])
         text_box = AnchoredText(hist_text, frameon=True, loc=2, pad=0.15)
@@ -288,6 +300,28 @@ while cap.isOpened():
 
     else:
         break
+
+# plot the histogram metrics
+plt.figure("data")
+
+# print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
+plt.subplot(3, 1, 1, zorder=1)
+s1 = plt.axvline(x=startleFrame, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
+plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
+plt.title('Skew')
+p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
+plt.subplot(3, 1, 2, zorder=-1)
+plt.title('Kurtosis')
+p2 = plt.plot(range(len(kurtosis_list)), kurtosis_list, c='blue', zorder=2)
+plt.subplot(3, 1, 3, zorder=-1)
+plt.title('Max')
+p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
+plt.xlabel('Saved Plot Frame')
+plt.subplots_adjust(hspace=0.6)
+
+if saveHistograms is True:
+    plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/',
+                         videoTitle, '.png')))
 
 cap.release()
 cv2.destroyAllWindows()

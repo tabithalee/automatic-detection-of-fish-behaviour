@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 import math
+import os
 
 from scipy.stats import skew
 from scipy.stats import kurtosis
@@ -15,19 +16,21 @@ from matplotlib.offsetbox import AnchoredText
 num_divisionsW = 2
 num_divisionsH = 2
 
-tracked_region_list = [1, 2, 3, 4]
+tracked_region_list = [1, 3, 4]
 
 ylim_max = 60
 
 numberOfFrames = 3
 numBins = 16
 
-startleFrame = 18
+startleFrame = 6
+extraStartle = False
 
-videoTitle = 'BC_POD1_PTILTVIDEO_20110703T190647.000Z_3.ogg'
+videoTitle = 'BC_POD1_PTILTVIDEO_20110703T190647.000Z_1.ogg'
 videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle))
 
 saveHistograms = True
+saveData = True
 
 # saliency methods according to number
 #   1     FineGrained
@@ -38,7 +41,7 @@ saliencyOn = False
 # blurring parameters (not used!!)
 gaussianSize = (21, 21)
 
-# histogram plot layout
+# histogram plot layout formatting
 plt.figure("main figure")
 hist_layout = plt.GridSpec(2, 2)
 
@@ -142,8 +145,8 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 
     if frameCount is numberOfFrames:
         # save histograms to file
-        figNameString = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/' \
-                        + '{0:08}'.format(savedPlotCount) + '.png'
+        figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/histograms/'
+        figNameString = figPath + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
         plt.figure("main figure")
         plt.subplot(hist_layout[0, 0:])
         plt.ylim(0, ylim_max)
@@ -157,6 +160,8 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
         plt.tight_layout()
 
         if save is True:
+            if not os.path.exists(''.join((figPath, videoTitle))):
+                os.mkdir(''.join((figPath, videoTitle)))
             plt.savefig(figNameString)
             plt.clf()
 
@@ -308,6 +313,9 @@ plt.figure("data")
 plt.subplot(3, 1, 1, zorder=1)
 s1 = plt.axvline(x=startleFrame, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
 plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
+if extraStartle:
+    s2 = plt.axvline(x=extraStartle, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
+    plt.text(extraStartle, max(skew_list) + 0.3, "Startle", color='red')
 plt.title('Skew')
 p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
 plt.subplot(3, 1, 2, zorder=-1)
@@ -319,8 +327,8 @@ p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
 plt.xlabel('Saved Plot Frame')
 plt.subplots_adjust(hspace=0.6)
 
-if saveHistograms is True:
-    plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/',
+if saveData is True:
+    plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/data/',
                          videoTitle, '.png')))
 
 cap.release()

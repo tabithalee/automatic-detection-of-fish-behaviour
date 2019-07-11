@@ -13,23 +13,25 @@ from matplotlib.offsetbox import AnchoredText
 # -----------------------------------PARAMETERS-----------------------------------------------
 
 
-num_divisionsW = 2
-num_divisionsH = 2
+num_divisionsW = 5
+num_divisionsH = 5
 
-tracked_region_list = [1, 3, 4]
+# tracked_region_list = range(1, num_divisionsW * num_divisionsH + 1)
+tracked_region_list = [11, 12, 13, 17]
 
 ylim_max = 60
 
 numberOfFrames = 3
 numBins = 16
 
-startleFrame = 6
+startleFrame = 36
 extraStartle = False
 
-videoTitle = 'BC_POD1_PTILTVIDEO_20110703T190647.000Z_1.ogg'
+videoTitle = 'BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg'
 videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle))
 
 saveHistograms = True
+saveToFolder = False
 saveData = True
 
 # saliency methods according to number
@@ -145,8 +147,12 @@ def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summed
 
     if frameCount is numberOfFrames:
         # save histograms to file
-        figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/histograms/'
-        figNameString = figPath + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
+        figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/'
+        if saveToFolder:
+            figNameString = figPath + 'histograms/' + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
+        else:
+            figNameString = figPath + '/{0:08}'.format(savedPlotCount) + '.png'
+
         plt.figure("main figure")
         plt.subplot(hist_layout[0, 0:])
         plt.ylim(0, ylim_max)
@@ -293,13 +299,6 @@ while cap.isOpened():
         plt.setp(text_box.patch, facecolor='white', alpha=1)
         plt.gca().add_artist(text_box)
 
-        '''
-        # find the maximum value of the histogram
-        if np.amax(summedHist) > the_max_max:
-            the_max_max = np.amax(summedHist)
-            print('new max: ', np.max(summedHist) / hist_scaling_factor)
-        '''
-
         prvs = next
         frameCount += 1
 
@@ -328,8 +327,12 @@ plt.xlabel('Saved Plot Frame')
 plt.subplots_adjust(hspace=0.6)
 
 if saveData is True:
-    plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/data/',
-                         videoTitle, '.png')))
+    if saveToFolder is True:
+        plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/data/',
+                    videoTitle, '.png')))
+    else:
+        plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/',
+                             videoTitle, '.png')))
 
 cap.release()
 cv2.destroyAllWindows()

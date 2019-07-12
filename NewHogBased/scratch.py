@@ -284,9 +284,9 @@ while cap.isOpened():
                                                                 saveHistograms, hist_layout)
 
         # calculate and save the histogram metrics
-        hist_skew = skew(summedHist)
+        hist_skew = skew(summedHist, bias=True)
         skew_list.append(hist_skew)
-        hist_kurtosis = kurtosis(summedHist)
+        hist_kurtosis = kurtosis(summedHist, bias=True, fisher=False)
         kurtosis_list.append(hist_kurtosis)
         hist_max = np.amax(summedHist)
         max_list.append(hist_max)
@@ -309,7 +309,7 @@ while cap.isOpened():
 plt.figure("data")
 
 # print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
-plt.subplot(3, 1, 1, zorder=1)
+plt.subplot(4, 1, 1, zorder=1)
 s1 = plt.axvline(x=startleFrame, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
 plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
 if extraStartle:
@@ -317,12 +317,17 @@ if extraStartle:
     plt.text(extraStartle, max(skew_list) + 0.3, "Startle", color='red')
 plt.title('Skew')
 p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
-plt.subplot(3, 1, 2, zorder=-1)
+plt.subplot(4, 1, 2, zorder=-1)
 plt.title('Kurtosis')
 p2 = plt.plot(range(len(kurtosis_list)), kurtosis_list, c='blue', zorder=2)
-plt.subplot(3, 1, 3, zorder=-1)
+plt.subplot(4, 1, 3, zorder=-1)
 plt.title('Max')
 p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
+plt.subplot(4, 1, 4, zorder=-1)
+plt.title('Kurtosis / Skew')
+test = [float(ai)/bi for ai, bi in zip(kurtosis_list, skew_list)]
+p3 = plt.plot(range(len(max_list)), test, c='blue', zorder=2)
+
 plt.xlabel('Saved Plot Frame')
 plt.subplots_adjust(hspace=0.6)
 

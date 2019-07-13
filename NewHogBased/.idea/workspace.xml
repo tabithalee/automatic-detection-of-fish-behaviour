@@ -2,56 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000000.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000001.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000002.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000003.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000004.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000005.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000006.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000007.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000008.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000009.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000010.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000011.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000012.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000013.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000014.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000015.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000016.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000017.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000018.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000019.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000020.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000021.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000022.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000023.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000024.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000025.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000026.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000027.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000028.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000029.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000030.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000031.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000032.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000033.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000034.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000035.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000036.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000037.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000038.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000039.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000040.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000041.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000042.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000043.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000044.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000045.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000046.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000047.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/00000048.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg_3x3.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg_4x4.png" beforeDir="false" />
@@ -125,7 +75,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1279" />
     <option name="width" value="1282" />
     <option name="height" value="498" />
@@ -217,7 +167,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1279" y="0" width="1282" height="997" extended-state="6" />
+    <frame x="1279" y="0" width="1282" height="997" extended-state="7" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24980111" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

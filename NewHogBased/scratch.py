@@ -99,7 +99,7 @@ def get_roi(frame, num_divisionsW, num_divisionsH):
 
 
 # returns a histogram and hsv values for displaying
-def get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod):
+def get_optical_flow(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod):
     # Get Gunnar-Farneback optical flow
     flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
 
@@ -120,9 +120,9 @@ def get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange, salie
     _, hsv[..., 2] = cv2.threshold(hsv[..., 2], 12, 255, cv2.THRESH_TOZERO)
 
     # Get the histogram of the area
-    myHist, _ = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=False)
+    # myHist, _ = np.histogram(ang, bins=myRange, weights=hsv[..., 2], density=False)
 
-    return hsv, myHist
+    return hsv, ang
 
 
 # Draw a grid nxm grid onto the image
@@ -142,44 +142,38 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
         cv2.line(bgr, leftPoints[i], rightPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
 
 
-def plot_histogram(frameCount, numberOfFrames, savedPlotCount, frameHist, summedHist, myRange, numBins,
-                   save, hist_layout):
+def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save, hist_layout):
+    # save histograms to file
+    figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/'
+    if saveToFolder:
+        figNameString = figPath + 'histograms/' + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
+    else:
+        figNameString = figPath + '/{0:08}'.format(savedPlotCount) + '.png'
 
-    if frameCount is numberOfFrames:
-        # save histograms to file
-        figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/'
-        if saveToFolder:
-            figNameString = figPath + 'histograms/' + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
-        else:
-            figNameString = figPath + '/{0:08}'.format(savedPlotCount) + '.png'
+    plt.figure("main figure")
+    plt.subplot(hist_layout[0, 0:])
+    plt.ylim(0, ylim_max)
+    plt.bar(myRange[:-1], frameHist / hist_scaling_factor, align='edge', width=2 * math.pi / numBins)
 
-        plt.figure("main figure")
-        plt.subplot(hist_layout[0, 0:])
-        plt.ylim(0, ylim_max)
-        plt.bar(myRange[:-1], summedHist / hist_scaling_factor, align='edge', width=2 * math.pi / numBins)
+    # plot visualisation stuff
+    plt.title('Histogram of Optical Flow')
+    plt.ylabel('Scaled Vector Histogram')
+    plt.xlabel('Degrees (rad)')
+    plt.grid(True)
+    plt.tight_layout()
 
-        # plot visualisation stuff
-        plt.title('Histogram of Optical Flow')
-        plt.ylabel('Scaled Vector Histogram')
-        plt.xlabel('Degrees (rad)')
-        plt.grid(True)
-        plt.tight_layout()
+    if save is True:
+        if not os.path.exists(''.join((figPath, videoTitle))):
+            os.mkdir(''.join((figPath, videoTitle)))
+        plt.savefig(figNameString)
+        plt.clf()
 
-        if save is True:
-            if not os.path.exists(''.join((figPath, videoTitle))):
-                os.mkdir(''.join((figPath, videoTitle)))
-            plt.savefig(figNameString)
-            plt.clf()
+    savedPlotCount += 1
 
-        savedPlotCount += 1
-        frameCount = 0
-        summedHist = np.zeros((numBins,))
-        if save is True:
-            print('saved figure', savedPlotCount)
+    if save is True:
+        print('saved figure', savedPlotCount)
 
-    summedHist += frameHist
-
-    return frameCount, savedPlotCount, summedHist
+    return frameCount, savedPlotCount
 
 
 # -----------------------------------START---------------------------------------------------
@@ -211,6 +205,9 @@ skew_list = []
 kurtosis_list = []
 max_list = []
 
+summed_tracked_mag = []
+summed_tracked_ang = []
+
 # Take first frame
 ret, frame1 = cap.read()
 if ret:
@@ -239,19 +236,45 @@ while cap.isOpened():
         dilationKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 15))
 
         # here is where divide the frame into subregions
-        roi_list_prvs = get_roi(prvs, num_divisionsW, num_divisionsH)
-        roi_list_next = get_roi(next, num_divisionsW, num_divisionsH)
+        # roi_list_prvs = get_roi(prvs, num_divisionsW, num_divisionsH)
+        # roi_list_next = get_roi(next, num_divisionsW, num_divisionsH)
 
-        prvs_window_list = [roi_list_prvs[i-1] for i in tracked_region_list]
-        next_window_list = [roi_list_next[i-1] for i in tracked_region_list]
+        # prvs_window_list = [roi_list_prvs[i-1] for i in tracked_region_list]
+        # next_window_list = [roi_list_next[i-1] for i in tracked_region_list]
 
-        # get HSV for entire frame
-        hsv, _ = get_histogram(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod)
+        # get optical flow for entire frame
+        hsv, myAngles = get_optical_flow(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod)
 
         # get individual histograms
-        frameHist = [get_histogram(prvs_window_list[i], next_window_list[i], frame_hsv, erosionKernel, dilationKernel,
-                                   myRange, saliencyMethod)[1]
-                     for i in range(len(tracked_region_list))]
+        #frameHist = [get_histogram(prvs_window_list[i], next_window_list[i], frame_hsv, erosionKernel, dilationKernel,
+                                   #myRange, saliencyMethod)[1]
+                     #for i in range(len(tracked_region_list))]
+
+        # divide optical flow into grid lists
+        mag_list = get_roi(hsv[..., 1], num_divisionsW, num_divisionsH)
+        ang_list = get_roi(myAngles, num_divisionsW, num_divisionsH)
+
+        # take only the regions of interest
+        tracked_mag_list = [mag_list[i-1] for i in tracked_region_list]
+        tracked_ang_list = [ang_list[i-1] for i in tracked_region_list]
+
+        # average out the list
+        if frameCount is numberOfFrames:
+            # average the lists
+            summed_tracked_mag = tracked_mag_list * 1.0 / numberOfFrames
+            summed_tracked_ang = tracked_ang_list * 1.0 / numberOfFrames
+
+            # reset the sum back to zero
+            summed_tracked_mag.clear()
+            summed_tracked_ang.clear()
+            frameCount = 0
+
+        summed_tracked_mag += tracked_mag_list
+        summed_tracked_ang += tracked_ang_list
+
+        # only take the histogram of averaged vectors
+        frameHist, _ = [np.histogram(summed_tracked_ang[i], bins=myRange, weights=summed_tracked_mag[i], density=False)
+                        for i in range(len(tracked_region_list))]
 
         # sum up the histograms per frame
         frameSummedHist = np.sum(frameHist, axis=0)
@@ -279,9 +302,10 @@ while cap.isOpened():
         plt.pause(0.001)
 
         # add the histograms
-        frameCount, savedPlotCount, summedHist = plot_histogram(frameCount, numberOfFrames, savedPlotCount,
-                                                                frameSummedHist, summedHist, myRange, numBins,
-                                                                saveHistograms, hist_layout)
+        frameCount, savedPlotCount = plot_histogram(frameCount, savedPlotCount, frameSummedHist, myRange, numBins,
+                                                    saveHistograms, hist_layout)
+
+
 
         # calculate and save the histogram metrics
         hist_skew = skew(summedHist, bias=True)

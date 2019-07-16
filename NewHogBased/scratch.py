@@ -1,14 +1,15 @@
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
 import math
 import os
 
+import matplotlib.pyplot as plt
+import argparse as ap
+
 from scipy.stats import skew
 from scipy.stats import kurtosis
-
 from matplotlib.offsetbox import AnchoredText
-
+from sys import argv
 
 # -----------------------------------PARAMETERS-----------------------------------------------
 
@@ -27,8 +28,7 @@ numBins = 16
 startleFrame = 28
 extraStartle = False
 
-videoTitle = 'BC_POD1_PTILTVIDEO_20110616T171904.000Z_2.ogg'
-videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle))
+videoTitle = 'BC_POD1_PTILTVIDEO_20110616T171904.000Z_2'
 
 saveHistograms = True
 saveToFolder = False
@@ -47,8 +47,30 @@ gaussianSize = (21, 21)
 plt.figure("main figure")
 hist_layout = plt.GridSpec(2, 2)
 
+# only if arguments passed
+if len(argv) >= 2:
+    parser = ap.ArgumentParser()
+    parser.add_argument("-n", "--name", help='name of video file', type=str)
+    parser.add_argument("-s", "--startleFrame", help='frame at which startle occurred', type=int)
+    parser.add_argument("-e", "--extraStartle", help='if more than one startle occured', type=int)
+    parser.add_argument("-r", "--roi", help='list of numbered frames to track',
+                        type=lambda s: [int(item) for item in s.split(',')])
+    parser.add_argument("--save2folder", dest='saveToFolder', default=False, action='store_true')
+    parser.add_argument("-d", "--dirName", help='main directory name if saving to folder', type=str)
+    args = parser.parse_args()
+
+    videoTitle = args.name
+    startleFrame = args.startleFrame
+    extraStartle = args.extraStartle
+    tracked_region_list = args.roi
+    saveToFolder = args.saveToFolder
+    dirName = args.dirName
+
+print(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFolder, dirName)
 
 # -----------------------------------DERIVED VARIABLES---------------------------------------
+videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle,
+                       '.ogg'))
 
 frameCount = 0
 savedPlotCount = 0
@@ -142,12 +164,12 @@ def draw_grid(num_divisionsH, num_divisionsW, bgr):
         cv2.line(bgr, leftPoints[i], rightPoints[i], (0, 255, 0), thickness=3, lineType=8, shift=0)
 
 
-def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save, hist_layout):
+def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save, hist_layout, dirName):
     if frameCount is numberOfFrames:
         # save histograms to file
         figPath = '/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/'
         if saveToFolder:
-            figNameString = figPath + 'histograms/' + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
+            figNameString = figPath + dirName + '/' + videoTitle + '/{0:08}'.format(savedPlotCount) + '.png'
         else:
             figNameString = figPath + '/{0:08}'.format(savedPlotCount) + '.png'
 
@@ -182,7 +204,7 @@ def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save
 
 # -----------------------------------START---------------------------------------------------
 
-
+def main():
 # Create some random colors for direction coding
 color = np.random.randint(0,255,(100,3))
 
@@ -307,7 +329,7 @@ while cap.isOpened():
 
         # plot the histograms
         frameCount, savedPlotCount = plot_histogram(frameCount, savedPlotCount, frameSummedHist, myRange, numBins,
-                                                    saveHistograms, hist_layout)
+                                                    saveHistograms, hist_layout, dirName)
 
         # calculate and save the histogram metrics
         hist_skew = skew(frameSummedHist, bias=True)
@@ -359,8 +381,8 @@ plt.subplots_adjust(hspace=0.6)
 
 if saveData is True:
     if saveToFolder is True:
-        plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/data/',
-                    videoTitle, '.png')))
+        plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/',
+                    dirName, videoTitle, '.png')))
     else:
         plt.savefig(''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/savedHistograms/',
                              videoTitle, '.png')))

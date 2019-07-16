@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg_3x3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110528T073304.000Z_1.ogg_4x4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg_3x3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg_4x4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../savedHistograms/BC_POD1_PTILTVIDEO_20110625T183602.000Z_1.ogg_5x5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratch.py" beforeDir="false" afterPath="$PROJECT_DIR$/scratch.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,11 +17,29 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="254" selection-start-line="254" selection-end-line="254" />
+            <state relative-caret-position="195">
+              <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="2163" selection-start-line="2163" selection-end-line="2163" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/numeric.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="166">
+              <caret line="537" selection-start-line="537" selection-end-line="537" />
             </state>
           </provider>
         </entry>
@@ -61,6 +74,7 @@
       <find>summed</find>
       <find>plot_histo</find>
       <find>frameHist</find>
+      <find>scaling_factor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -75,7 +89,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1279" />
     <option name="width" value="1282" />
     <option name="height" value="498" />
@@ -167,15 +181,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1279" y="0" width="1282" height="997" extended-state="7" />
+    <frame x="1279" y="0" width="1282" height="997" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24980111" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49642006" weight="0.32914287" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49801114" visible="true" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49642006" visible="true" weight="0.32914287" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49801114" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -190,23 +205,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/scratch.py</url>
-          <line>154</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/scratch.py</url>
-          <line>257</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/scratch.py</url>
-          <line>253</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -254,10 +259,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/numeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="537" selection-start-line="537" selection-end-line="537" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/core/fromnumeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="2163" selection-start-line="2163" selection-end-line="2163" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.5/site-packages/numpy/lib/histograms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="915" selection-start-line="915" selection-end-line="915" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="254" selection-start-line="254" selection-end-line="254" />
+        <state relative-caret-position="195">
+          <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

@@ -119,7 +119,7 @@ def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save
         plt.grid(True)
         plt.tight_layout()
 
-        if save is True:
+        if saveToFolder is True:
             if not os.path.exists(''.join((figPath, dirName, '/', videoTitle))):
                 os.mkdir(''.join((figPath, dirName, '/', videoTitle)))
             plt.savefig(figNameString)
@@ -141,6 +141,10 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     print(tracked_region_list)
     print(videoTitle, 'startleFrame: ', startleFrame, 'extraStartle: ', extraStartle,
           'roi: ', tracked_region_list, 'save?: ', saveToFolder, 'dirName: ', dirName)
+
+    startleFrame = int(startleFrame)
+    if extraStartle:
+        extraStartle = int(extraStartle)
 
     num_divisionsW = 2
     num_divisionsH = 2
@@ -341,14 +345,14 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
 
     # plot the histogram metrics
     plt.figure("data")
-
-    # print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
     plt.subplot(3, 1, 1, zorder=1)
     s1 = plt.axvline(x=startleFrame, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
     plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
     if extraStartle:
         s2 = plt.axvline(x=extraStartle, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
         plt.text(extraStartle, max(skew_list) + 0.3, "Startle", color='red')
+
+    # print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
     plt.title('Skew')
     p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
     plt.subplot(3, 1, 2, zorder=-1)
@@ -357,6 +361,8 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.subplot(3, 1, 3, zorder=-1)
     plt.title('Max')
     p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
+
+
     #plt.subplot(3, 1, 4, zorder=-1)
     #plt.title('Kurtosis / Skew')
     #test = [float(ai)/float(bi) for ai, bi in zip(kurtosis_list, skew_list)]
@@ -364,6 +370,7 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
 
     plt.xlabel('Saved Plot Frame')
     plt.subplots_adjust(hspace=0.6)
+    plt.tight_layout()
 
     if saveData is True:
         if saveToFolder is True:
@@ -375,6 +382,7 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
 
     cap.release()
     cv2.destroyAllWindows()
+    plt.close('all')
 
 
 # only if arguments passed
@@ -382,7 +390,7 @@ if __name__ == '__main__':
     parser = ap.ArgumentParser()
     parser.add_argument("-n", "--name", help='name of video file', type=str)
     parser.add_argument("-s", "--startleFrame", help='frame at which startle occurred', type=int)
-    parser.add_argument("-e", "--extraStartle", help='if more than one startle occured', type=int)
+    parser.add_argument("-e", "--extraStartle", help='if more than one startle occurred', type=int)
     parser.add_argument("-r", "--roi", help='list of numbered frames to track',
                         type=lambda s: [int(item) for item in s.split(',')])
     parser.add_argument("--save2folder", dest='saveToFolder', default=False, action='store_true')

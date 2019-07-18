@@ -6,8 +6,7 @@ import os
 import matplotlib.pyplot as plt
 import argparse as ap
 
-from scipy.stats import skew
-from scipy.stats import kurtosis
+from scipy.stats import skew, kurtosis, gmean, hmean, kstatvar, mode
 from matplotlib.offsetbox import AnchoredText
 from sys import argv
 
@@ -153,15 +152,15 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     if extraStartle:
         extraStartle = int(extraStartle)
 
-    num_divisionsW = 2
-    num_divisionsH = 2
+    num_divisionsW = 3
+    num_divisionsH = 3
 
     # tracked_region_list = range(1, num_divisionsW * num_divisionsH + 1)
     # tracked_region_list = [1, 2, 3, 4]
 
     ylim_max = 60
 
-    numberOfFrames = 3
+    numberOfFrames = 5
     numBins = 16
 
     # startleFrame = 28
@@ -226,6 +225,11 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     skew_list = []
     kurtosis_list = []
     max_list = []
+
+    gmean_list = []
+    hmean_list = []
+    var_list = []
+    mode_list = []
 
     # Take first frame
     ret, frame1 = cap.read()
@@ -335,6 +339,15 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
             kurtosis_list.append(hist_kurtosis)
             hist_max = np.amax(frameSummedHist)
             max_list.append(hist_max)
+            # mean, harmonic mean, variance
+            hist_gmean = gmean(frameSummedHist)
+            gmean_list.append(hist_gmean)
+            hist_hmean = gmean(frameSummedHist)
+            hmean_list.append(hist_hmean)
+            hist_var = kstatvar(frameSummedHist)
+            var_list.append(hist_var)
+            hist_mode = mode(frameSummedHist, axis=None)
+            mode_list.append(hist_mode[0])
 
             hist_text = '\n'.join(('skew=%.2f' % (hist_skew, ), 'kurtosis=%.2f' % (hist_kurtosis, ),
                                    'max=%.2f' % (hist_max / hist_scaling_factor, )))
@@ -382,13 +395,30 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.title('Max')
     p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
 
+    '''
+    plt.subplot(9, 1, 6, zorder=-1)
+    plt.title('Mean')
+    p4 = plt.plot(range(len(gmean_list)), gmean_list, c='blue', zorder=2)
+
+    plt.subplot(9, 1, 7, zorder=-1)
+    plt.title('Harmonic Mean')
+    p5 = plt.plot(range(len(hmean_list)), hmean_list, c='blue', zorder=2)
+
+    plt.subplot(9, 1, 8, zorder=-1)
+    plt.title('Variance')
+    p6 = plt.plot(range(len(var_list)), var_list, c='blue', zorder=2)
+
+    plt.subplot(9, 1, 9, zorder=-1)
+    plt.title('Mode')
+    p7 = plt.plot(range(len(mode_list)), mode_list, c='blue', zorder=2)
+
     # first derivative of the funtions
 
     #plt.subplot(3, 1, 4, zorder=-1)
     #plt.title('Kurtosis / Skew')
     #test = [float(ai)/float(bi) for ai, bi in zip(kurtosis_list, skew_list)]
     #p3 = plt.plot(range(len(max_list)), test, c='blue', zorder=2)
-
+    '''
 
     plt.subplots_adjust(hspace=1.2)
     plt.tight_layout()

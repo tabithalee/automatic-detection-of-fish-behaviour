@@ -127,12 +127,19 @@ def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save
 
         savedPlotCount += 1
 
-        if save is True:
+        if saveToFolder is True:
             print('saved figure', savedPlotCount)
 
         frameCount = 0
 
     return frameCount, savedPlotCount
+
+
+def get_first_derivative(array, fps):
+    # get symmetric first derivative of array
+    step_size = 3 * float(1 / fps)
+    derivative = [((array[i+1] - array[i-1]) / (2 * step_size)) for i in range(1, len(array)-1)]
+    return derivative
 
 # -----------------------------------PARAMETERS-----------------------------------------------
 
@@ -179,7 +186,7 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.figure("main figure")
     hist_layout = plt.GridSpec(2, 2)
 
-
+    fps = 15
 
     # -----------------------------------DERIVED VARIABLES---------------------------------------
     videoString = ''.join(('/home/tabitha/Desktop/automatic-detection-of-fish-behaviour/good_vids/sablefish/', videoTitle,
@@ -345,31 +352,45 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
 
     # plot the histogram metrics
     plt.figure("data")
-    plt.subplot(3, 1, 1, zorder=1)
-    s1 = plt.axvline(x=startleFrame, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
+    plt.subplot(5, 1, 1, zorder=1)
+    s1 = plt.axvline(x=startleFrame, ymin=-4.4, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
     plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
     if extraStartle:
-        s2 = plt.axvline(x=extraStartle, ymin=-3.2, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
+        s2 = plt.axvline(x=extraStartle, ymin=-4.4, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
         plt.text(extraStartle, max(skew_list) + 0.3, "Startle", color='red')
 
     # print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
     plt.title('Skew')
     p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
-    plt.subplot(3, 1, 2, zorder=-1)
+
+    plt.subplot(5, 1, 4, zorder=-1)
+    plt.title('Skew Derivative')
+    d1 = get_first_derivative(skew_list, fps)
+    plt.plot(range(len(d1)), d1, c='green', zorder=2)
+
+    plt.subplot(5, 1, 2, zorder=-1)
     plt.title('Kurtosis')
     p2 = plt.plot(range(len(kurtosis_list)), kurtosis_list, c='blue', zorder=2)
-    plt.subplot(3, 1, 3, zorder=-1)
+
+    plt.subplot(5, 1, 5, zorder=-1)
+    plt.title('Kurtosis Derivative')
+    d2 = get_first_derivative(kurtosis_list, fps)
+    plt.plot(range(len(d2)), d2, c='green', zorder=2)
+    plt.xlabel('Saved Plot Frame')
+
+    plt.subplot(5, 1, 3, zorder=-1)
     plt.title('Max')
     p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
 
+    # first derivative of the funtions
 
     #plt.subplot(3, 1, 4, zorder=-1)
     #plt.title('Kurtosis / Skew')
     #test = [float(ai)/float(bi) for ai, bi in zip(kurtosis_list, skew_list)]
     #p3 = plt.plot(range(len(max_list)), test, c='blue', zorder=2)
 
-    plt.xlabel('Saved Plot Frame')
-    plt.subplots_adjust(hspace=0.6)
+
+    plt.subplots_adjust(hspace=1.2)
     plt.tight_layout()
 
     if saveData is True:

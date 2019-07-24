@@ -26,6 +26,7 @@ def find_weighted_mean(data, weights):
     my_product = [xi * wi for xi, wi in zip(data, weights)]
     return sum(my_product) / sum(weights)
 
+
 def find_weighted_moment(data, weights, deg):
     my_mean = find_weighted_mean(data, weights)
     if deg is 2:

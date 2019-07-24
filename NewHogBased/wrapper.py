@@ -17,7 +17,7 @@ sheetPath = relativePath + 'sheets/annotated_data_3x3_2.csv'
 
 csv.register_dialect('myDialect', delimiter='|', skipinitialspace=True)
 
-dirName = 'Smooth3x3_5'
+dirName = '3x3_skchange'
 
 if not os.path.exists(''.join((relativePath, dirName))):
     os.mkdir(''.join((relativePath, dirName)))

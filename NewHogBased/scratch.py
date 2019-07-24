@@ -6,9 +6,10 @@ import os
 import matplotlib.pyplot as plt
 import argparse as ap
 
-from scipy.stats import skew, kurtosis, gmean, hmean, kstatvar, mode
+from scipy.stats import skew, kurtosis
 from matplotlib.offsetbox import AnchoredText
-from sys import argv
+
+from stats import find_weighted_skew, find_weighted_kurtosis
 
 # -----------------------------------METHODS-------------------------------------------------
 
@@ -226,10 +227,9 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     kurtosis_list = []
     max_list = []
 
-    gmean_list = []
-    hmean_list = []
-    var_list = []
-    mode_list = []
+    hist_skew = 0.00
+    hist_kurtosis = 0.00
+    hist_max = 0.00
 
     # Take first frame
     ret, frame1 = cap.read()
@@ -289,10 +289,19 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
                 # average the lists
                 #summed_tracked_mag = tracked_mag_list * 1.0 / numberOfFrames
                 #summed_tracked_ang = tracked_ang_list * 1.0 / numberOfFrames
+                # calculate and save the histogram metrics
+                avg_angle_list = [x / numberOfFrames for x in summed_tracked_ang]
+                avg_mag_list = [x / numberOfFrames for x in summed_tracked_mag]
+
+                flat_avg_angle = np.array(avg_angle_list).flatten()
+                flat_avg_mag = np.array(avg_mag_list).flatten()
+                hist_skew = find_weighted_skew(flat_avg_angle, flat_avg_mag)
+                hist_kurtosis = find_weighted_kurtosis(flat_avg_angle, flat_avg_mag)
+                hist_max = np.amax(flat_avg_mag) / hist_scaling_factor
 
                 # only take the histogram of averaged vectors
-                frameHist = [np.histogram(summed_tracked_ang[i] / numberOfFrames, bins=myRange,
-                                          weights=summed_tracked_mag[i] / numberOfFrames, density=False)[0]
+                frameHist = [np.histogram(avg_angle_list[i], bins=myRange,
+                                          weights=avg_mag_list[i], density=False)[0]
                              for i in range(len(tracked_region_list))]
 
                 # sum up the histograms per frame
@@ -302,8 +311,8 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
                 summed_tracked_ang = np.zeros((len(tracked_region_list), pixels_height, pixels_width))
                 summed_tracked_mag = np.zeros((len(tracked_region_list), pixels_height, pixels_width))
 
-            summed_tracked_mag += np.array(tracked_mag_list)
-            summed_tracked_ang += np.array(tracked_ang_list)
+            summed_tracked_mag = [sum(x) for x in zip(summed_tracked_mag, tracked_mag_list)]
+            summed_tracked_ang = [sum(x) for x in zip(summed_tracked_ang, tracked_ang_list)]
 
             bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
@@ -332,25 +341,12 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
                                                         saveHistograms, hist_layout, dirName, numberOfFrames,
                                                         saveToFolder, videoTitle, ylim_max, hist_scaling_factor)
 
-            # calculate and save the histogram metrics
-            hist_skew = skew(frameSummedHist, bias=True)
             skew_list.append(hist_skew)
-            hist_kurtosis = kurtosis(frameSummedHist, bias=True, fisher=False)
             kurtosis_list.append(hist_kurtosis)
-            hist_max = np.amax(frameSummedHist)
             max_list.append(hist_max)
-            # mean, harmonic mean, variance
-            hist_gmean = gmean(frameSummedHist)
-            gmean_list.append(hist_gmean)
-            hist_hmean = gmean(frameSummedHist)
-            hmean_list.append(hist_hmean)
-            hist_var = kstatvar(frameSummedHist)
-            var_list.append(hist_var)
-            hist_mode = mode(frameSummedHist, axis=None)
-            mode_list.append(hist_mode[0])
 
-            hist_text = '\n'.join(('skew=%.2f' % (hist_skew, ), 'kurtosis=%.2f' % (hist_kurtosis, ),
-                                   'max=%.2f' % (hist_max / hist_scaling_factor, )))
+            hist_text = '\n'.join(('skew=%.2f' % hist_skew, 'kurtosis=%.2f' % hist_kurtosis,
+                                   'max=%.2f' % hist_max))
 
             plt.subplot(hist_layout[0, 0:])
             text_box = AnchoredText(hist_text, frameon=True, loc=2, pad=0.15)
@@ -366,11 +362,13 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     # plot the histogram metrics
     plt.figure("data")
     plt.subplot(5, 1, 1, zorder=1)
-    s1 = plt.axvline(x=startleFrame, ymin=-4.4, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
-    plt.text(startleFrame, max(skew_list) + 0.3, "Startle", color='red')
+    s1 = plt.axvline(x=startleFrame * 3, ymin=-4.4, ymax=1, label='startle', c='red',
+                     zorder=20, clip_on=False)
+    plt.text(startleFrame * 3, max(skew_list) + 0.3, "Startle", color='red')
     if extraStartle:
-        s2 = plt.axvline(x=extraStartle, ymin=-4.4, ymax=1, label='startle', c='red', zorder=20, clip_on=False)
-        plt.text(extraStartle, max(skew_list) + 0.3, "Startle", color='red')
+        s2 = plt.axvline(x=extraStartle * 3, ymin=-4.4, ymax=1, label='startle', c='red',
+                         zorder=20, clip_on=False)
+        plt.text(extraStartle * 3, max(skew_list) + 0.3, "Startle", color='red')
 
     # print('savedplotcount: ', savedPlotCount, 'hist_skew count: ', len(skew_list))
     plt.title('Skew')

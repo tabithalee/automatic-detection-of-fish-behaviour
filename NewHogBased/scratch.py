@@ -10,6 +10,7 @@ from scipy.stats import skew, kurtosis
 from matplotlib.offsetbox import AnchoredText
 
 from stats import find_weighted_skew, find_weighted_kurtosis
+from hog_functions import get_polar_gradients
 
 # -----------------------------------METHODS-------------------------------------------------
 
@@ -227,9 +228,15 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     kurtosis_list = []
     max_list = []
 
+    hog_skew_list = []
+    hog_kurtosis_list = []
+
     hist_skew = 0.00
     hist_kurtosis = 0.00
     hist_max = 0.00
+
+    hog_hist_skew = 0.00
+    hog_hist_kurtosis = 0.00
 
     # Take first frame
     ret, frame1 = cap.read()
@@ -299,6 +306,12 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
                 hist_kurtosis = find_weighted_kurtosis(flat_avg_angle, flat_avg_mag)
                 hist_max = np.amax(flat_avg_mag) / hist_scaling_factor
 
+                hog_angles, hog_mags = get_polar_gradients(next)
+                hog_angles = np.array(hog_angles).flatten()
+                hog_mags = np.array(hog_mags).flatten()
+                hog_hist_skew = find_weighted_skew(hog_angles, hog_mags)
+                hog_hist_kurtosis = find_weighted_kurtosis(hog_angles, hog_mags)
+
                 # only take the histogram of averaged vectors
                 frameHist = [np.histogram(avg_angle_list[i], bins=myRange,
                                           weights=avg_mag_list[i], density=False)[0]
@@ -345,6 +358,9 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
             kurtosis_list.append(hist_kurtosis)
             max_list.append(hist_max)
 
+            hog_skew_list.append(hog_hist_skew)
+            hog_kurtosis_list.append(hog_hist_kurtosis)
+
             hist_text = '\n'.join(('skew=%.2f' % hist_skew, 'kurtosis=%.2f' % hist_kurtosis,
                                    'max=%.2f' % hist_max))
 
@@ -361,7 +377,7 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
 
     # plot the histogram metrics
     plt.figure("data")
-    plt.subplot(5, 1, 1, zorder=1)
+    plt.subplot(6, 1, 1, zorder=1)
     s1 = plt.axvline(x=startleFrame * 3, ymin=-4.4, ymax=1, label='startle', c='red',
                      zorder=20, clip_on=False)
     plt.text(startleFrame * 3, max(skew_list) + 0.3, "Startle", color='red')
@@ -374,24 +390,28 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.title('Skew')
     p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
 
-    plt.subplot(5, 1, 4, zorder=-1)
+    plt.subplot(6, 1, 4, zorder=-1)
     plt.title('Skew Derivative')
     d1 = get_first_derivative(skew_list, fps)
     plt.plot(range(len(d1)), d1, c='green', zorder=2)
 
-    plt.subplot(5, 1, 2, zorder=-1)
+    plt.subplot(6, 1, 2, zorder=-1)
     plt.title('Kurtosis')
     p2 = plt.plot(range(len(kurtosis_list)), kurtosis_list, c='blue', zorder=2)
 
-    plt.subplot(5, 1, 5, zorder=-1)
+    plt.subplot(6, 1, 5, zorder=-1)
     plt.title('Kurtosis Derivative')
     d2 = get_first_derivative(kurtosis_list, fps)
     plt.plot(range(len(d2)), d2, c='green', zorder=2)
     plt.xlabel('Saved Plot Frame')
 
-    plt.subplot(5, 1, 3, zorder=-1)
+    plt.subplot(6, 1, 3, zorder=-1)
     plt.title('Max')
     p3 = plt.plot(range(len(max_list)), max_list, c='blue', zorder=2)
+
+    plt.subplot(6, 1, 6, zorder=-1)
+    plt.title('Hog Skew')
+    p4 = plt.plot(range(len(hog_skew_list)), hog_skew_list, c='purple', zorder=2)
 
     '''
     plt.subplot(9, 1, 6, zorder=-1)

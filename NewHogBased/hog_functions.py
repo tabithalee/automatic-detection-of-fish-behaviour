@@ -1,5 +1,6 @@
 # HoG functions
 import cv2
+import numpy as np
 
 
 def get_sobel(frame):
@@ -17,3 +18,10 @@ def get_polar_gradients(frame):
     mag, ang = cv2.cartToPolar(gx, gy)
 
     return mag, ang
+
+
+def get_hog_descriptor(frame, num_bins):
+    mag, ang = get_polar_gradients(frame)
+    hog_hist = np.histogram(ang, bins=num_bins, weights=mag, density=False)
+
+    return hog_hist

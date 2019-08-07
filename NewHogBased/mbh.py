@@ -11,11 +11,9 @@ def get_mbh_descriptor(prvs, next, num_bins):
     # get the x and y directions
     gx, gy = get_sobel(of_frame)
 
-    # calculate the histogram for each direction
-    gx_hist = np.histogram(gx, bins=num_bins, density=False)
-    gy_hist = np.histogram(gy, bins=num_bins, density=False)
+    mag, ang = cv2.cartToPolar(gx, gy)
 
-    return gx_hist, gy_hist
+    return mag, ang
 
 
 def get_hof_descriptor(prvs, next, num_bins):

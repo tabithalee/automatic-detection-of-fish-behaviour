@@ -40,7 +40,7 @@ def get_roi(frame, num_divisionsW, num_divisionsH):
 
 
 # returns a histogram and hsv values for displaying
-def get_optical_flow(prvs, next, hsv, erosionKernel, dilationKernel, myRange, saliencyMethod):
+def get_optical_flow(prvs, next, hsv, erosionKernel, dilationKernel):
     # Get Gunnar-Farneback optical flow
     flow = cv2.calcOpticalFlowFarneback(prvs, next, None, 0.5, 3, 15, 3, 5, 1.1, 0)
 

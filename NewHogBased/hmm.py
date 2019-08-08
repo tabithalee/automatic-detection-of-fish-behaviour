@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import math
 
 from processing_methods import *
 from hog_functions import get_polar_gradients
@@ -136,21 +137,77 @@ def get_hists_from_video_frame(video_string, num_divisions_w, num_divisions_h, t
     return hof_summed_hist_list, hog_summed_hist_list, mbh_summed_hist_list
 
 
-def get_exemplar():
-    return
+def get_averages(initial_cluster, num_states):
+    my_averages = [(np.sum(initial_cluster[i], axis=0) / len(initial_cluster[i])) for i in range(num_states)]
+    return my_averages
+
 
 # don't need symmetrical distance - comparing to a base
 def get_quadratic_chi_distance_vector(hist1_base, hist2):
+    return cv2.compareHist(hist1_base, hist2, cv2.HISTCMP_CHISQR)
 
-    return
+
+def sort_clusters(my_clusters, num_states):
+    done_flag = True
+    average_cluster = get_averages(my_clusters, num_states)
+    for i in range(num_states):
+        d1 = get_quadratic_chi_distance_vector(average_cluster[i], my_clusters[i])
+        d2 = get_quadratic_chi_distance_vector(average_cluster[(i+1) % num_states], my_clusters[i])
+
+        for x in d1:
+            if d1[x] > d2[x]:
+                my_clusters[(i+1) % num_states].append(my_clusters[i])
+                my_clusters.pop(i)
+                done_flag = False
+
+    if done_flag is False:
+        sort_clusters(my_clusters, num_states)
+    else:
+        return average_cluster
 
 
-def get_clustered_histograms():
-    return
+def get_chi_distance_to_every_exemplar(frame_hist, average_cluster):
+    frame_chi_distance_list = []
+    for i in range(len(average_cluster)):
+        d = get_quadratic_chi_distance_vector(average_cluster, frame_hist)
+        frame_chi_distance_list.append(d)
+    return frame_chi_distance_list
+
+
+# average frame to exemplar distance for each exemplar
+def calculate_mu_values(exemplar, vid_chi_distances):
+    my_mu_list = []
+    for item in exemplar:
+        exemplar_distance_sum = 0
+        exemplar_norm = np.linalg.norm(item)
+        for frame_distance in vid_chi_distances:
+            exemplar_distance_sum += frame_distance[exemplar.index(item)]
+
+        my_mu_list.append(exemplar_distance_sum / exemplar_norm)
+    return my_mu_list
 
 
 # probability of an observation
-def generate_emission_matrix():
+def generate_emission_vector(exemplar, vid_chi_distances):
+    emission_vector = []
+    mu_list = calculate_mu_values(exemplar, vid_chi_distances)
+    for mu in mu_list:
+        for frame_distance in vid_chi_distances:
+            emission_vector.append((1 / mu) * math.exp(-1 * frame_distance / mu))
+
+    return emission_vector
+
+
+def estimate_trans_prob_matrix(num_states, exemplars, total_hist_list):
+    A = np.zeros((num_states, num_states))
+    for i in range(num_states):
+        for j in range(num_states):
+            sum = 0
+            cluster_size = 0
+            for vid in total_hist_list:
+                
+
+
     return
 
 

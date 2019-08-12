@@ -204,9 +204,8 @@ def estimate_trans_prob_matrix(num_states, exemplars, total_hist_list):
         for j in range(num_states):
             sum = 0
             cluster_size = 0
-            for vid in total_hist_list:
-
-
+            # TODO
+            #for vid in total_hist_list:
 
     return
 

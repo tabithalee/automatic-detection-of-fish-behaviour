@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/of_kalman.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hmm.py" beforeDir="false" afterPath="$PROJECT_DIR$/hmm.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hmm_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/hmm_test.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="225" column="104" selection-start-line="225" selection-start-column="92" selection-end-line="225" selection-end-column="104" />
+            <state relative-caret-position="826">
+              <caret line="266" column="53" lean-forward="true" selection-start-line="266" selection-start-column="53" selection-end-line="266" selection-end-column="53" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#17022#17814#0" />
@@ -64,10 +65,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/hmm.py">
+        <entry file="file://$PROJECT_DIR$/of_kalman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="207" column="16" selection-start-line="207" selection-start-column="16" selection-end-line="207" selection-end-column="16" />
+            <state relative-caret-position="342">
+              <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -82,6 +83,18 @@
               <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
               <folding>
                 <element signature="e#16#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/hmm.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="136" selection-end-column="75" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,8 +139,8 @@
       <find>frameCount</find>
       <find>myRange</find>
       <find>np.hist</find>
-      <find>hist_scaling</find>
       <find>tracked_mag_list</find>
+      <find>hist_scaling</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -147,10 +160,11 @@
         <option value="$PROJECT_DIR$/mbh.py" />
         <option value="$PROJECT_DIR$/hmm_test.py" />
         <option value="$PROJECT_DIR$/hmm.py" />
+        <option value="$PROJECT_DIR$/of_kalman.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1279" />
     <option name="width" value="1282" />
     <option name="height" value="498" />
@@ -304,7 +318,7 @@
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49914822" visible="true" weight="0.24980111" />
-      <window_info id="Structure" order="1" sideWeight="0.5008518" side_tool="true" weight="0.24980111" />
+      <window_info id="Structure" order="1" sideWeight="0.5008518" side_tool="true" visible="true" weight="0.24980111" />
       <window_info id="Favorites" order="2" sideWeight="0.5008518" side_tool="true" weight="0.24980111" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -452,33 +466,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hog_functions.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-          <folding>
-            <element signature="e#16#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mbh.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scratch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="225" column="104" selection-start-line="225" selection-start-column="92" selection-end-line="225" selection-end-column="104" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#17022#17814#0" />
           </folding>
         </state>
       </provider>
@@ -493,10 +486,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/hog_functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+          <folding>
+            <element signature="e#16#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/hmm.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="207" column="16" selection-start-line="207" selection-start-column="16" selection-end-line="207" selection-end-column="16" />
+        <state>
+          <caret selection-end-line="136" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scratch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="826">
+          <caret line="266" column="53" lean-forward="true" selection-start-line="266" selection-start-column="53" selection-end-line="266" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#17022#17814#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/of_kalman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="23" column="12" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

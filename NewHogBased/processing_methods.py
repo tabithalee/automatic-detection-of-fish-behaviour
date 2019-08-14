@@ -1,3 +1,12 @@
+import numpy as np
+import cv2
+import math
+
+from processing_methods import *
+from hog_functions import get_polar_gradients
+from mbh import get_mbh_descriptor
+import matplotlib.pyplot as plt
+
 # -----------------------------------METHODS-------------------------------------------------
 
 

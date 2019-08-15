@@ -37,11 +37,12 @@ def process_video_frame(video_path, num_divisions_W, num_divisions_H):
 
             # get the OF vectors of each window for processing
             for i in range(len(prev_list_roi)):
-                hsv2_list[i] = get_optical_flow(prev_list_roi[i], next_list_roi[i], hsv_list_roi[i],
-                                                erosion_kernel, dilation_kernel)
+                hsv2_list.append(cv2.calcOpticalFlowFarneback(prev_list_roi[i], next_list_roi[i], None,
+                                                              0.5, 3, 15, 3, 5, 1.1, 0))
 
-                # get the gx of each OF and MBH window
-                gx_list[i] = cv2.threshold(get_sobel(hsv2_list[i])[0], 120, 255, cv2.THRESH_TOZERO)[1]
+                my_stalling = 1
+
+                # take the average motion of each window by averaging out the gx
 
             # also get MBH vectors of each window TODO
 
@@ -50,4 +51,4 @@ def process_video_frame(video_path, num_divisions_W, num_divisions_H):
         else:
             break
 
-    return
+    return hsv2_list, len(previous_frame)

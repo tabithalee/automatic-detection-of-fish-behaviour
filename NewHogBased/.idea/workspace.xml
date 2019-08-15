@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="6d95a717-7717-4b21-ae04-40467ab7ec30" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/of_kalman.py" beforeDir="false" afterPath="$PROJECT_DIR$/of_kalman.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/processing_methods.py" beforeDir="false" afterPath="$PROJECT_DIR$/processing_methods.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../lk_track.py" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +19,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scratch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="138" column="12" selection-start-line="138" selection-start-column="12" selection-end-line="139" selection-end-column="80" />
+            <state relative-caret-position="135">
+              <caret line="63" selection-start-line="63" selection-end-line="64" selection-end-column="35" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#17022#17814#0" />
@@ -43,18 +41,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lk_track.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1575" />
+            <state relative-caret-position="375">
+              <caret line="81" column="44" lean-forward="true" selection-start-line="81" selection-start-column="44" selection-end-line="81" selection-end-column="44" />
+            </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/processing_methods.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="69" column="4" lean-forward="true" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="75" />
+            <state relative-caret-position="470">
+              <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -77,11 +77,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/of_kalman.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="417">
-              <caret line="47" selection-start-line="47" selection-end-line="47" />
+            <state relative-caret-position="370">
+              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/venv/of_kalman_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///usr/lib/python3.5/codecs.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="308" selection-start-line="308" selection-end-line="308" />
             </state>
           </provider>
         </entry>
@@ -148,9 +166,9 @@
       <find>tracked_mag_list</find>
       <find>hist_scaling</find>
       <find>np.hist</find>
-      <find>thresho</find>
       <find>video</find>
       <find>erosion</find>
+      <find>thresho</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -171,6 +189,7 @@
         <option value="$PROJECT_DIR$/processing_methods.py" />
         <option value="$PROJECT_DIR$/scratch.py" />
         <option value="$PROJECT_DIR$/of_kalman.py" />
+        <option value="$PROJECT_DIR$/venv/of_kalman_test.py" />
       </list>
     </option>
   </component>
@@ -197,27 +216,6 @@
               <item name="NewHogBased" type="b2602c69:ProjectViewProjectNode" />
               <item name="NewHogBased" type="462c0819:PsiDirectoryNode" />
               <item name="venv" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NewHogBased" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NewHogBased" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NewHogBased" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NewHogBased" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="python3.5" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="NewHogBased" type="b2602c69:ProjectViewProjectNode" />
-              <item name="NewHogBased" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="python3.5" type="462c0819:PsiDirectoryNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="NewHogBased" type="b2602c69:ProjectViewProjectNode" />
@@ -251,7 +249,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.lk_track (1)">
+  <component name="RunManager" selected="Python.of_kalman_test">
     <configuration name="lk_track (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="NewHogBased" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -294,6 +292,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="of_kalman_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="NewHogBased" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv/of_kalman_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="scratch" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="NewHogBased" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -308,27 +327,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scratch.py" />
       <option name="PARAMETERS" value="--n BC_POD1_PTILTVIDEO_20110528T073304.000Z_1 -s 21 -r 3,4 --save2folder -d test" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="stats_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="NewHogBased" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/stats_test.py" />
-      <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -360,17 +358,17 @@
     <list>
       <item itemvalue="Python.scratch" />
       <item itemvalue="Python.wrapper" />
-      <item itemvalue="Python.stats_test" />
       <item itemvalue="Python.lk_track" />
       <item itemvalue="Python.lk_track (1)" />
+      <item itemvalue="Python.of_kalman_test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.of_kalman_test" />
         <item itemvalue="Python.lk_track (1)" />
         <item itemvalue="Python.lk_track" />
         <item itemvalue="Python.wrapper" />
         <item itemvalue="Python.scratch" />
-        <item itemvalue="Python.stats_test" />
       </list>
     </recent_temporary>
   </component>
@@ -399,13 +397,13 @@
   <component name="ToolWindowManager">
     <frame x="1279" y="0" width="1282" height="997" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49914822" visible="true" weight="0.24980111" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990476" visible="true" weight="0.24980111" />
       <window_info id="Structure" order="1" sideWeight="0.5008518" side_tool="true" weight="0.24980111" />
-      <window_info active="true" id="Favorites" order="2" sideWeight="0.5008518" side_tool="true" visible="true" weight="0.24980111" />
+      <window_info id="Favorites" order="2" sideWeight="0.50095236" side_tool="true" visible="true" weight="0.24980111" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49642006" visible="true" weight="0.32914287" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49801114" weight="0.4" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49642006" weight="0.32914287" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49801114" visible="true" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32914287" />
@@ -439,6 +437,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/venv/of_kalman_test.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -548,17 +553,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scratch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="138" column="12" selection-start-line="138" selection-start-column="12" selection-end-line="139" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#17022#17814#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mbh.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -579,30 +573,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/processing_methods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="69" column="4" lean-forward="true" selection-start-line="69" selection-start-column="4" selection-end-line="69" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/of_kalman.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../lk_track.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="27" column="12" selection-start-line="27" selection-start-column="7" selection-end-line="27" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lk_track.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="81" column="44" lean-forward="true" selection-start-line="81" selection-start-column="44" selection-end-line="81" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -616,9 +597,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lk_track.py">
+    <entry file="file://$PROJECT_DIR$/scratch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1575" />
+        <state relative-caret-position="135">
+          <caret line="63" selection-start-line="63" selection-end-line="64" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#17022#17814#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/lib/python3.5/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="308" selection-start-line="308" selection-end-line="308" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/processing_methods.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/of_kalman.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/of_kalman_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
       </provider>
     </entry>
   </component>

@@ -115,12 +115,13 @@ def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save
         plt.grid(True)
         plt.tight_layout()
 
+        '''
         if saveToFolder is True:
             if not os.path.exists(''.join((figPath, dirName, '/', videoTitle))):
                 os.mkdir(''.join((figPath, dirName, '/', videoTitle)))
             plt.savefig(figNameString)
             plt.clf()
-
+        '''
         savedPlotCount += 1
 
         if saveToFolder is True:

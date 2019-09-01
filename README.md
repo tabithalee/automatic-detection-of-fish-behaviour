@@ -47,11 +47,17 @@ For a single video the settings for this approach are under the section 'single_
 * roi - the regions which you wish to track in each frame of the video. They start from 1 and go left to right, row by row. For example, the regions of a 3x3 are labelled as follows
 
 '---'---'---'
+
 | 1 | 2 | 3 |
+
 '---'---'---'
+
 | 4 | 5 | 6 |
+
 '---'---'---'
+
 | 7 | 8 | 9 |
+
 '---'---'---'
 
 If we only wanted to look at the top row, we would specify the roi as a list '1,2,3', separated only by commas (no spaces). 

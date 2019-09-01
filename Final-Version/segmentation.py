@@ -74,7 +74,7 @@ def run_segmentation(prevFrame, minArea, threshVal, dilationIterations, gaussian
             plt.pause(0.001)
 
             if saveFrames is True:
-                plt.savefig(''.join((repoPath, '/', '%000d' % frame_count, '.png')))
+                plt.savefig(''.join((repoPath, '/segmentation/', '%000d' % frame_count, '.png')))
 
             myList.append(threshDiff)
             time.sleep(0.001)

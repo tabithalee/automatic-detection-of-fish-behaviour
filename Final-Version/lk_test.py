@@ -93,7 +93,7 @@ class App:
                 plt.imshow(vis)
 
                 if self.saveFrames is True:
-                    plt.savefig(''.join((self.repoPath, '/lk_test', '%000d' % frame_count, '.png')))
+                    plt.savefig(''.join((self.repoPath, '/lk_test/', '%000d' % frame_count, '.png')))
 
                 ch = cv.waitKey(1)
                 if ch == 27:

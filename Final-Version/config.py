@@ -25,7 +25,7 @@ config['main_settings'] = {
     'dirName': '3_data_process',
     'allWindows': 'False',
     'sampleInterval': '5',
-    'csvFile': 'annotated_data_3x3_2.csv',
+    'csvFile': 'annotated_data_3x3_3.csv',
     'numGoodVids': '27',
     'numDivX': '3',
     'numDivY': '3',
@@ -38,7 +38,7 @@ config['main_settings'] = {
 config['single_main_settings'] = {
     'videoTitle': 'BC_POD1_PTILTVIDEO_20110519T091755.000Z_1.ogg',
     'startleFrame': '22',
-    'extraStartle': 'False',
+    'extraStartle': '-1',
     'saveToFolder': 'False',
     'dirName': 'single_video',
     'sampleInterval': '5',

@@ -254,6 +254,9 @@ if __name__ == '__main__':
     repoPath = parser.get('user_settings', 'repoPath')
     fps = parser.getint('single_main_settings', 'fps')
 
+    if extraStartle is -1:
+        extraStartle = None
+
     roi = [int(item) for item in windows.split(',')]
 
     main(videoTitle, startleFrame, extraStartle, roi, saveToFolder, dirName,

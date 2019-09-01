@@ -115,11 +115,9 @@ def plot_histogram(frameCount, savedPlotCount, frameHist, myRange, numBins, save
                 os.mkdir(''.join((figPath, dirName, '/', videoTitle)))
             plt.savefig(figNameString)
             plt.clf()
+            print('saved figure', savedPlotCount)
 
         savedPlotCount += 1
-
-        if saveToFolder is True:
-            print('saved figure', savedPlotCount)
 
         frameCount = 0
 

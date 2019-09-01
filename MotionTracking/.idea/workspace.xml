@@ -4,6 +4,8 @@
     <list default="true" id="e23ca47f-da98-443a-89bd-1bed408cf28c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../NewHogBased/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NewHogBased/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/sheets/5_annotated_data_3x3_final (copy).ods" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/sheets/5_annotated_data_3x3_final (copy).ods" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../savedHistograms/sheets/annotated_data_3x3_final.ods" beforeDir="false" afterPath="$PROJECT_DIR$/../savedHistograms/sheets/annotated_data_3x3_final.ods" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +94,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

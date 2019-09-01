@@ -65,7 +65,8 @@ with open(sheetPath, 'r') as csvfile:
 
         # run the algorithm
         main.main(row['Video Title'], row['Startle Frame'], row['Extra Startle'],
-                  myWindows, True, dirName, numDivX, numDivY, sampleInterval, saveHistograms, saveData, repoPath, fps)
+                  myWindows, True, dirName, numDivX, numDivY, sampleInterval, numHistBins, saveHistograms,
+                  saveData, repoPath, fps)
 
         # process the resulting npzfiles
         npzfile = np.load(''.join((relativePath, 'npzfiles/', dirName, '/', row['Video Title'], '.npz')))

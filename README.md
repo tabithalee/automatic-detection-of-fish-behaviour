@@ -32,10 +32,10 @@ For this approach, you can choose to run the code for all the videos in the set 
 
 #### Single Video
 For a single video the settings for this approach are under the section 'single_main_settings' in the config.py file. The settings are explained below:
-* videoTitle - the file name of the video (assuming that it is in the good_vids/sablefish directory)
+* videoTitle - the file name of the video (assuming that it is in the good_vids/sablefish directory). Do not include the file type extension ('.ogg', for example)
 * startleFrame - the frame at which startle should be drawn on the skewness and kurtosis plots
 * extraStartle - the frame at which an extra startle should be drawn. If no extra startle, use -1.
-* saveToFolder - If true, create a directory for each video and save each figure to the directory sepcified by dirName. If false figures will not be saved
+* saveToFolder - If true, create a directory for each video and save each figure to the directory sepcified by dirName. If false figures will be saved in the savedHistograms directory
 * dirName - The folder name of the directory to save histograms under (will be in savedHistograms directory)
 * sampleInterval - the sampling interval
 * numDivX - number of horizontal divisions of each frame
@@ -63,6 +63,16 @@ For a single video the settings for this approach are under the section 'single_
 If we only wanted to look at the top row, we would specify the roi as a list '1,2,3', separated only by commas (no spaces). 
 After the config.py is run, we can run main.py for processing just one video.
 
+If you specified saveData to be true, you can find the .npz files in the directory savedHistograms/npzfiles. You can then load this into your workspace to access the values. For example
+nzfile=np.load('foo.npz')
+nzfile['skew_list']
+This would load the skewness sequence of the video into the workspace as an array. The keys for the npz file are:
+* skewness: skew_list
+* kurtosis: kurtosis_list
+* first derivative of skewness: d1
+* first derivative of kurtosis: d2
+* max: max_list
+
 #### Multiple Videos
 The settings for running the code for multiple videos can be modified in the 'main_settings' section of the config.py file. The settings are similar to the single video case, with a few extra settings below:
 * allWindows - a way to keep track of the entire frame at once, instead of having to specify for each video in the set
@@ -70,6 +80,18 @@ The settings for running the code for multiple videos can be modified in the 'ma
 * numGoodVids - the number of videos in the video set.
 
 After the config.py file is run, you can run wrapper.py. If you specified saveData to be true, you can find the .npz files in the directory savedHistograms/npzfiles. You can then load these arrays for further analyzing the skewness, kurtosis, and their first derivatives of your dataset.
+
+The keys for the .npz file for the whole video set are:
+* skew max index list: sm
+* kurtosis max index list: km
+* skew first derivative max index list: sdm
+* kurtosis first derivative max index list: kdm
+* maximum max index list: mm
+* skew peak duration list: sd
+* kurtosis duration list: kd
+* first derivative of skew duration list: sdd
+* first derivative of kurtosis duration list: kdd
+* maximum peak duration list: md
 
 ### Other Files
 Two other files have been included, but are currently unused in our current implementations. Both contain only python methods, so they will have to be written into their own code. These two files are 

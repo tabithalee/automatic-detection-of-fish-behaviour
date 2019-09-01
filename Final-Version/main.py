@@ -182,13 +182,13 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.figure("data")
     plt.subplot(5, 1, 1, zorder=1)
     # plot startle line
-    s1 = plt.axvline(x=startleFrame * numberOfFrames, ymin=-4.4, ymax=1, label='startle', c='red',
+    s1 = plt.axvline(x=startleFrame * 3, ymin=-4.4, ymax=1, label='startle', c='red',
                      zorder=20, clip_on=False)
-    plt.text(startleFrame * numberOfFrames, max(skew_list) + 0.3, "Startle", color='red')
+    plt.text(startleFrame * 3, max(skew_list) + 0.3, "Startle", color='red')
     if extraStartle:
-        s2 = plt.axvline(x=extraStartle * numberOfFrames, ymin=-4.4, ymax=1, label='startle', c='red',
+        s2 = plt.axvline(x=extraStartle * 3, ymin=-4.4, ymax=1, label='startle', c='red',
                          zorder=20, clip_on=False)
-        plt.text(extraStartle * numberOfFrames, max(skew_list) + 0.3, "Startle", color='red')
+        plt.text(extraStartle * 3, max(skew_list) + 0.3, "Startle", color='red')
 
     plt.title('Skew')
     p1 = plt.plot(range(len(skew_list)), skew_list, c='blue', zorder=2)
@@ -216,11 +216,17 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
     plt.tight_layout()
 
     if saveData is True:
+        if not os.path.exists(''.join((repoPath, '/savedHistograms/npzfiles/', dirName))):
+            os.mkdir(''.join((repoPath, '/savedHistograms/npzfiles/', dirName)))
+
         np.savez(''.join((repoPath, '/savedHistograms/npzfiles/', dirName, '/', videoTitle)), skew_list=skew_list,
                  kurtosis_list=kurtosis_list, d1=d1, d2=d2, max_list=max_list)
         print('saved', dirName, '.npz')
 
         if saveToFolder is True:
+            if not os.path.exists(''.join((repoPath, 'savedHistograms', dirName))):
+                os.mkdir(''.join((repoPath, 'savedHistograms', dirName)))
+
             plt.savefig(''.join((repoPath, '/savedHistograms/',
                         dirName, '/', videoTitle, '.png')))
         else:

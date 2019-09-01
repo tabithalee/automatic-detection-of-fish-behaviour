@@ -36,8 +36,8 @@ config['main_settings'] = {
 }
 
 config['single_main_settings'] = {
-    'videoTitle': 'BC_POD1_PTILTVIDEO_20110519T091755.000Z_1.ogg',
-    'startleFrame': '22',
+    'videoTitle': 'BC_POD1_PTILTVIDEO_20110519T091755.000Z_1',
+    'startleFrame': '55',
     'extraStartle': '-1',
     'saveToFolder': 'False',
     'dirName': 'single_video',
@@ -48,7 +48,7 @@ config['single_main_settings'] = {
     'saveHistograms': 'True',
     'saveData': 'True',
     'fps': '15',
-    'roi': '1,2,3'
+    'roi': '1,2,4,5'
 }
 
 with open('./dev.ini', 'w') as f:

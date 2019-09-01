@@ -64,8 +64,11 @@ If we only wanted to look at the top row, we would specify the roi as a list '1,
 After the config.py is run, we can run main.py for processing just one video.
 
 If you specified saveData to be true, you can find the .npz files in the directory savedHistograms/npzfiles. You can then load this into your workspace to access the values. For example
+
 nzfile=np.load('foo.npz')
+
 nzfile['skew_list']
+
 This would load the skewness sequence of the video into the workspace as an array. The keys for the npz file are:
 * skewness: skew_list
 * kurtosis: kurtosis_list
@@ -95,8 +98,8 @@ The keys for the .npz file for the whole video set are:
 
 ### Other Files
 Two other files have been included, but are currently unused in our current implementations. Both contain only python methods, so they will have to be written into their own code. These two files are 
-* hog_functions.py
-* mbh.py
+* hog_functions.py - methods for HOG
+* mbh.py - methods for MBH
 
 ## Authors
 * Tabitha Lee

@@ -31,19 +31,21 @@ lk_params = dict( winSize  = (15, 15),
                   maxLevel = 2,
                   criteria = (cv.TERM_CRITERIA_EPS | cv.TERM_CRITERIA_COUNT, 10, 0.03))
 
-feature_params = dict( maxCorners = 100,
+feature_params = dict( maxCorners = 500,
                        qualityLevel = 0.3,
                        minDistance = 7,
                        blockSize = 7 )
 
+
 class App:
-    def __init__(self, video_src, saveFrames):
+    def __init__(self, video_src, saveFrames, repoPath):
         self.track_len = 10
         self.detect_interval = 5
         self.tracks = []
         self.frame_idx = 0
         self.cap = video_src
         self.saveFrames = saveFrames
+        self.repoPath = repoPath
 
     def run(self):
         frame_count = 0
@@ -51,7 +53,6 @@ class App:
             ret, frame = self.cap.read()
             if ret:
                 frame_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
-                #frame_gray = cv.bitwise_not(frame_gray)
                 vis = frame.copy()
 
                 if len(self.tracks) > 0:
@@ -90,7 +91,9 @@ class App:
                 plt.figure('lk_track')
                 plt.title('Lucas-Kanade algorithm of Optical Flow')
                 plt.imshow(vis)
-                plt.savefig(''.join(('/home/tabi/Desktop/lk_test_harris', '%000d' % frame_count, '.png')))
+
+                if self.saveFrames is True:
+                    plt.savefig(''.join((self.repoPath, '/lk_test', '%000d' % frame_count, '.png')))
 
                 ch = cv.waitKey(1)
                 if ch == 27:

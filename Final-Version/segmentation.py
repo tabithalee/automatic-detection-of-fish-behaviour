@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 
 def run_segmentation(prevFrame, minArea, threshVal, dilationIterations, gaussianSize, bufferLength, lineThick,
-                     saveFrames,
-                     gaussianFilter, myList, cap, plot_layout,
-                     trackedPoints, predictedPoints, kalmanX, kalmanY):
+                     saveFrames, gaussianFilter, myList, cap, plot_layout,
+                     trackedPoints, predictedPoints, kalmanX, kalmanY,
+                     repoPath):
 
     frame_count = 0
     while cap.isOpened():
@@ -73,9 +73,8 @@ def run_segmentation(prevFrame, minArea, threshVal, dilationIterations, gaussian
             plt.imshow(initFrame)
             plt.pause(0.001)
 
-            #TODO - make a better path for this
             if saveFrames is True:
-                plt.savefig(''.join(('/home/tabi/Desktop', '%000d' % frame_count, '.png')))
+                plt.savefig(''.join((repoPath, '/', '%000d' % frame_count, '.png')))
 
             myList.append(threshDiff)
             time.sleep(0.001)

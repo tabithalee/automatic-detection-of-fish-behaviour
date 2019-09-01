@@ -224,8 +224,8 @@ def main(videoTitle, startleFrame, extraStartle, tracked_region_list, saveToFold
         print('saved', dirName, '.npz')
 
         if saveToFolder is True:
-            if not os.path.exists(''.join((repoPath, 'savedHistograms', dirName))):
-                os.mkdir(''.join((repoPath, 'savedHistograms', dirName)))
+            if not os.path.exists(''.join((repoPath, '/savedHistograms/', dirName))):
+                os.mkdir(''.join((repoPath, '/savedHistograms/', dirName)))
 
             plt.savefig(''.join((repoPath, '/savedHistograms/',
                         dirName, '/', videoTitle, '.png')))
